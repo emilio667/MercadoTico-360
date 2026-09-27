@@ -1,0 +1,17 @@
+# Bitácora Gustavo Jiménez 
+ 
+ ##Fecha: 26/09/2026
+ 
+### Actividades realizadas: 
+ 
+- Creación de cuenta MongoDB Atlas.
+- Creación de Cluster0.
+- Instalación de Python.
+- Instalación de PyMongo.
+- Instalación de Faker.
+- Conexión exitosa desde Python.
+- Creación de la base de datos MercadoTico360.
+- Creación de la colección clientes.
+- Inserción de documento de prueba.
+
+Entorno listo para iniciar la generación masiva de clientes, productos y pedidos.
