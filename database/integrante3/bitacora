@@ -14,4 +14,21 @@
 - Creación de la colección clientes.
 - Inserción de documento de prueba.
 
+
+29 de sep de 2026
+
+8:00 pm 
+Gustavo, Integrante 3 
+
 Entorno listo para iniciar la generación masiva de clientes, productos y pedidos.
+Modelos de datos implementados.
+
+Generación automática de clientes.
+
+Generación automática de productos.
+
+Generación automática de pedidos.
+
+Carga masiva de datos en MongoDB Atlas.
+
+Pruebas de inserción y validación completadas.
