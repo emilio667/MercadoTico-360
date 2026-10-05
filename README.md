@@ -288,7 +288,71 @@ El proyecto contempla índices para optimizar consultas frecuentes, entre ellos:
 
 ## 12. Estructura del repositorio
 
-[PENDIENTE: agregar estructura final del repositorio]
+```text
+
+MercadoTico-360/
+
+├── data/
+
+│   └── README.md
+
+│
+
+├── database/
+
+│   ├── Index/
+
+│   ├── integrante3/
+
+│   ├── queires/
+
+│   └── schemas/
+
+│
+
+├── docs/
+
+├── Performance/
+
+├── test/
+
+├── Entregables/
+
+├── Paper técnico/
+
+│
+
+├── DATA_ARCHITECTURE.md
+
+├── LICENSE
+
+└── README.md
+
+```
+
+### Descripción de las carpetas principales
+
+- `data/`: generación y carga de los datos utilizados por el proyecto.
+
+- `database/`: archivos relacionados con la implementación de la base de datos.
+
+- `database/Index/`: definición de índices para optimizar las consultas.
+
+- `database/integrante3/`: scripts actuales de conexión y pruebas con MongoDB Atlas.
+
+- `database/queires/`: consultas y agregaciones del proyecto.
+
+- `database/schemas/`: definición de las estructuras de datos.
+
+- `docs/`: documentación sobre arquitectura, modelo de datos y decisiones de diseño.
+
+- `Performance/`: evidencia de las pruebas de rendimiento de los índices.
+
+- `test/`: pruebas del proyecto.
+
+- `Entregables/`: documentos correspondientes a las entregas del proyecto.
+
+- `Paper técnico/`: archivos relacionados con el paper técnico.
 
 
 ## 13. Autores
