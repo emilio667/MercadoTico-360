@@ -178,8 +178,28 @@ PyMongo instalado correctamente
 ```
 
 ## 8. Carga de datos
+La carga de datos utilizara generadores independientes para las principales colecciones del proyecto:
 
-[PENDIENTE: agregar scripts, archivos y orden de carga]
+- Productos.
+
+- Clientes.
+
+- Pedidos.
+
+La estructura prevista dentro de `data/` es:
+
+```text
+
+data/
+
+├── generate_products.js
+
+├── generate_customers.js
+
+└── generate_orders.js
+
+```
+[PENDIENTE: incorporar los generadores y documentar los comandos definitivos para realizar la carga de datos]
 
 
 ## 9. Ejecución
