@@ -236,19 +236,49 @@ python database/integrante3/crear_db.py
 
 ### 10.1 Consultas de productos
 
-[PENDIENTE]
+Se implementará consultas para:
 
-### 10.2 Consultas de clientes
+- Buscar productos por categoría.
 
-[PENDIENTE]
+- Buscar productos por rango de precio.
 
-### 10.3 Consultas de pedidos
+- Buscar productos utilizando atributos específicos.
 
-[PENDIENTE]
+- Combinar filtros de categoría y precio.
 
-### 10.4 Consultas analíticas
+### 10.2 Consultas de pedidos
 
-[PENDIENTE]
+Se implementará consultas para:
+
+- Recuperar los pedidos de un cliente.
+
+- Consultar un pedido con sus líneas de detalle.
+
+- Consultar el estado de un pedido.
+
+- Actualizar el estado de un pedido.
+
+### 10.3 Agregaciones
+
+Se incorporaran consultas de agregación para obtener información útil para el negocio, como:
+
+- Ventas por categoría.
+
+- Ticket promedio.
+
+- Productos más vendidos.
+
+### 10.4 Índices
+
+El proyecto contempla índices para optimizar consultas frecuentes, entre ellos:
+
+- Categoría y precio.
+
+- Atributos específicos de productos.
+
+- Cliente y fecha de los pedidos.
+
+[PENDIENTE: agregar los comandos definitivos de demostracion cuando los archivos de consultas e indices esten implementados]
 
 
 ## 11. Resultados
