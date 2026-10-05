@@ -36,7 +36,13 @@ Diseñar e implementar un modelo de base de datos no relacional orientado a docu
 
 ### 3.2 Objetivos específicos
 
-[PENDIENTE: incorporar versión definitiva de los objetivos]
+1. Configurar la arquitectura de almacenamiento en la nube a través de clústeres distribuidos en MongoDB Atlas para asegurar la alta disponibilidad, el aislamiento de consultas y la tolerancia a fallos de la plataforma.
+
+2. Evaluar las limitantes del modelo relacional frente a las ventajas del modelo NoSQL orientado a documentos para entornos transaccionales de alta velocidad y volumen.
+
+3. Estructurar un esquema de datos flexible que consolide en una única colección un catálogo de productos heterogéneo (alimentos, ropa, tecnología, artesanías y servicios) sin incurrir en redundancias ni campos nulos.
+
+4. Desarrollar un patrón de documentos para la colección de pedidos que encapsule las líneas de detalle de las compras, resguardando la integridad histórica de los precios y cantidades facturadas.
 
 
 ## 4. Tecnologías utilizadas
