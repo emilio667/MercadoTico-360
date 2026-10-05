@@ -204,7 +204,32 @@ data/
 
 ## 9. Ejecución
 
-[PENDIENTE: agregar instrucciones y comandos de ejecución]
+Actualmente el repositorio contiene scripts en Python para comprobar PyMongo, conectarse con MongoDB Atlas y realizar una insercion basica en la coleccion de clientes.
+
+Para verificar PyMongo:
+
+```bash
+
+python database/integrante3/test_atlas.py
+
+```
+
+Para probar la conexion con MongoDB Atlas:
+
+```bash
+
+python database/integrante3/conexion.py
+
+```
+
+Para ejecutar la prueba de creación e inserción de un documento:
+
+```bash
+
+python database/integrante3/crear_db.py
+
+```
+[PENDIENTE: actualizar comandos de ejecución, falta info]
 
 
 ## 10. Comandos de demostración
