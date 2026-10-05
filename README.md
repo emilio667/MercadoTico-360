@@ -42,7 +42,7 @@ Diseñar e implementar un modelo de base de datos no relacional orientado a docu
 
 3. Estructurar un esquema de datos flexible que consolide en una única colección un catálogo de productos heterogéneo (alimentos, ropa, tecnología, artesanías y servicios) sin incurrir en redundancias ni campos nulos.
 
-4. Desarrollar un patrón de documentos para la colección de pedidos que encapsule las líneas de detalle de las compras, resguardando la integridad histórica de los precios y cantidades facturadas.
+4. Desarrollar un patrón de documentos para la colección de pedidos que encapsule las lineas de detalle de las compras, resguardando la integridad historica de los precios y cantidades facturadas.
 
 
 ## 4. Tecnologías utilizadas
@@ -54,11 +54,11 @@ Diseñar e implementar un modelo de base de datos no relacional orientado a docu
 
 ## 5. Modelo de datos
 
-La base de datos está compuesta por tres colecciones principales.
+La base de datos esta compuesta por tres colecciones principales.
 
 ### 5.1 Productos
 
-La colección `productos` almacena el catálogo de MercadoTico 360. Cada producto puede tener atributos diferentes según su categoría mediante el campo `atributos`.
+La colección `productos` almacena el catálogo de MercadoTico 360. Cada producto puede tener atributos diferentes segun su categoria mediante el campo `atributos`.
 
 Ejemplo:
 
@@ -100,11 +100,11 @@ La dirección puede almacenarse como una estructura embebida con información co
 
 ### 5.3 Pedidos
 
-La colección `pedidos` almacena las compras realizadas por los clientes.
+La coleccion `pedidos` almacena las compras realizadas por los clientes.
 
-Cada pedido contiene sus líneas de detalle, permitiendo conservar los productos, cantidades y precios correspondientes al momento en que se realizó la compra.
+Cada pedido contiene sus lineas de detalle, permitiendo conservar los productos, cantidades y precios correspondientes al momento en que se realizo la compra.
 
-El monto total del pedido se obtiene a partir de los subtotales incluidos en las líneas de detalle.
+El monto total del pedido se obtiene a partir de los subtotales incluidos en las lineas de detalle.
 
 
 ## 6. Prerrequisitos
@@ -115,27 +115,67 @@ Antes de ejecutar el proyecto es necesario contar con:
 
 - Una cuenta de MongoDB Atlas.
 
-- Acceso al clúster de MongoDB Atlas utilizado por el proyecto.
+- Acceso al cluster de MongoDB Atlas utilizado por el proyecto.
 
 - PyMongo instalado.
 
-- Conexión a Internet para acceder al clúster alojado en MongoDB Atlas.
+- Conexion a Internet para acceder al cluster alojado en MongoDB Atlas.
 
 
 ## 7. Instalación y configuración
-
 ### 7.1 Clonar el repositorio
 
-[PENDIENTE: agregar URL y comando]
+Clonar el repositorio de MercadoTico 360 en el equipo:
 
-### 7.2 Configurar MongoDB Atlas
+```bash
 
-[PENDIENTE: agregar pasos de configuración]
+git clone https://github.com/emilio667/MercadoTico-360.git 
 
-### 7.3 Configurar la conexión
+```
 
-[PENDIENTE: agregar configuración definitiva]
+Ingresar a la carpeta:
 
+```bash
+
+cd MercadoTico-360
+
+```
+
+
+
+### 7.2 Instalar PyMongo
+
+Ejecutar:
+
+```bash
+
+pip install pymongo
+
+```
+
+### 7.3 Configurar MongoDB Atlas
+
+Para utilizar el proyecto es necesario contar con acceso al cluster correspondiente en MongoDB Atlas y configurar la conexion utilizando una URI valida.
+
+Por seguridad, las credenciales de acceso no deben publicarse directamente en el repositorio.
+
+### 7.4 Verificar PyMongo
+
+Se puede comprobar la instalación ejecutando:
+
+```bash
+
+python database/integrante3/test_atlas.py
+
+```
+
+El resultado esperado es:
+
+```text
+
+PyMongo instalado correctamente
+
+```
 
 ## 8. Carga de datos
 
