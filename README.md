@@ -1,19 +1,136 @@
-## MercadoTico-360
-MercadoTico 360, Tecnología documentos
+# MercadoTico 360
 
-## Arquitectura de datos y justificación NoSQL
+## Índice
 
-El caso de negocio MercadoTico 360 requiere solucionar las limitaciones de un modelo relacional tradicional al gestionar un catálogo con productos sumamente variados (alimentos, ropa, tecnología, artesanías y servicios).
-El modelo orientado a documentos de MongoDB se justifica técnicamente por los siguientes factores:
+1. [Descripción del proyecto](#1-descripción-del-proyecto)
+2. [Problema de negocio](#2-problema-de-negocio)
+3. [Objetivos](#3-objetivos)
+4. [Tecnologías utilizadas](#4-tecnologías-utilizadas)
+5. [Modelo de datos](#5-modelo-de-datos)
+- [5.1 Productos](#51-productos)
+- [5.2 Clientes](#52-clientes)
+- [5.3 Pedidos](#53-pedidos)
+6. [Prerrequisitos](#6-prerrequisitos)
+7. [Instalación y configuración](#7-instalación-y-configuración)
+8. [Carga de datos](#8-carga-de-datos)
+9. [Ejecución](#9-ejecución)
+10. [Comandos de demostración](#10-comandos-de-demostración)
+11. [Resultados](#11-resultados)
+12. [Estructura del repositorio](#12-estructura-del-repositorio)
+13. [Autores](#13-autores)
 
-1. **Esquema flexible (Catálogo heterogéneo):** Cada categoría de producto posee atributos distintos. En lugar de utilizar tablas relacionales con múltiples columnas nulas o tablas hijas para atributos dinámicos, el modelo de documentos (BSON/JSON) permite guardar productos con atributos personalizados según su categoría, eliminando campos vacíos y simplificando el almacenamiento.
-2. **Documentos embebidos (Historial de pedidos):** Permite anidar las líneas de detalle directamente dentro del documento principal de cada pedido. Esto garantiza la inmutabilidad e integridad histórica de la compra sin depender de operaciones JOIN complejas entre múltiples tablas.
-3. **Evolución del esquema sin interrupciones:** Permite incorporar nuevas categorías de productos o agregar nuevos datos a la estructura del pedido en tiempo real, facilitando la escalabilidad del marketplace a medida que crece.
-4. **Capacidad de análisis:** MongoDB cuenta con un motor de agregaciones (*Aggregation Framework*) muy potente, idóneo para extraer reportes analíticos y métricas operativas requeridas por la plataforma.
 
-## Estrategia de índices para optimización de lecturas
-Para garantizar un rendimiento óptimo en la plataforma frente al volumen de datos, se definieron los siguientes índices estratégicos en el código (`docs/modelos-datos.py):
-* **`idx_categoria_precio` (`categoria: 1, precio: 1`):** Optimiza las búsquedas frecuentes en el catálogo al filtrar por categoría y ordenar los productos por precio de forma ascendente.
-* **`idx_atributos_talla` (`atributos.talla: 1`):** Acelera las consultas sobre el objeto embebido de atributos específicos (ej. filtrado por talla en prendas de vestir).
-* **`idx_cliente_fecha` (`cliente_id: 1, fecha: -1`):** Permite recuperar de forma inmediata el historial de pedidos recientes de cualquier cliente en la plataforma.
+## 1. Descripción del proyecto
 
+MercadoTico 360 es un proyecto de base de datos NoSQL orientado a documentos para una plataforma de comercio electrónico.
+
+## 2. Problema de negocio
+
+MercadoTico 360 maneja productos de distintas categorías, como alimentos, ropa, tecnología, artesanías y servicios. Esta variedad requiere una estructura de datos flexible que permita almacenar diferentes atributos y conservar correctamente el historial de los pedidos.
+
+## 3. Objetivos
+
+### 3.1 Objetivo general
+
+Diseñar e implementar un modelo de base de datos no relacional orientado a documentos utilizando MongoDB Atlas para la plataforma MercadoTico 360.
+
+### 3.2 Objetivos específicos
+
+[PENDIENTE: incorporar versión definitiva de los objetivos]
+
+
+## 4. Tecnologías utilizadas
+
+- MongoDB
+- MongoDB Atlas
+- Modelo de datos orientado a documentos
+
+
+## 5. Modelo de datos
+
+La base de datos está compuesta por tres colecciones principales.
+
+### 5.1 Productos
+
+Almacena el catálogo de productos de diferentes categorías y sus atributos específicos.
+
+### 5.2 Clientes
+
+Almacena la información de los clientes, incluyendo sus datos de contacto y ubicación.
+
+### 5.3 Pedidos
+
+Almacena las compras realizadas y sus líneas de detalle, conservando los precios y cantidades correspondientes al momento de cada transacción.
+
+
+## 6. Prerrequisitos
+
+Antes de ejecutar el proyecto es necesario contar con:
+
+- Una cuenta de MongoDB Atlas.
+- Acceso al clúster del proyecto.
+- [PENDIENTE: verificar otros requisitos]
+
+
+## 7. Instalación y configuración
+
+### 7.1 Clonar el repositorio
+
+[PENDIENTE: agregar URL y comando]
+
+### 7.2 Configurar MongoDB Atlas
+
+[PENDIENTE: agregar pasos de configuración]
+
+### 7.3 Configurar la conexión
+
+[PENDIENTE: agregar configuración definitiva]
+
+
+## 8. Carga de datos
+
+[PENDIENTE: agregar scripts, archivos y orden de carga]
+
+
+## 9. Ejecución
+
+[PENDIENTE: agregar instrucciones y comandos de ejecución]
+
+
+## 10. Comandos de demostración
+
+### 10.1 Consultas de productos
+
+[PENDIENTE]
+
+### 10.2 Consultas de clientes
+
+[PENDIENTE]
+
+### 10.3 Consultas de pedidos
+
+[PENDIENTE]
+
+### 10.4 Consultas analíticas
+
+[PENDIENTE]
+
+
+## 11. Resultados
+
+[PENDIENTE: agregar resultados obtenidos durante las pruebas]
+
+
+## 12. Estructura del repositorio
+
+[PENDIENTE: agregar estructura final del repositorio]
+
+
+## 13. Autores
+
+- Adrián Quesada Jiménez
+- Camila Alpízar Alfaro
+- Emilio Calderón Jiménez
+- Gustavo Jiménez Hidalgo
+- Justin Zhu Fan
+- Salma Capín Romero
