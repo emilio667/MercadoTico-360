@@ -58,15 +58,53 @@ La base de datos está compuesta por tres colecciones principales.
 
 ### 5.1 Productos
 
-Almacena el catálogo de productos de diferentes categorías y sus atributos específicos.
+La colección `productos` almacena el catálogo de MercadoTico 360. Cada producto puede tener atributos diferentes según su categoría mediante el campo `atributos`.
+
+Ejemplo:
+
+```json
+
+{
+
+  "_id": "PROD-001",
+
+  "nombre": "Camiseta Tipica",
+
+  "precio": 18000,
+
+  "categoria": "Ropa",
+
+  "comercio_id": "COM-102",
+
+  "stock": 45,
+
+  "atributos": {
+
+    "talla": "M",
+
+    "color": "Azul",
+
+    "material": "Algodon"
+
+  }
+
+}
+
+```
 
 ### 5.2 Clientes
 
-Almacena la información de los clientes, incluyendo sus datos de contacto y ubicación.
+La colección `clientes` almacena la información de los usuarios de la plataforma, incluyendo sus datos de contacto y ubicación.
+
+La dirección puede almacenarse como una estructura embebida con información como provincia, cantón y distrito.
 
 ### 5.3 Pedidos
 
-Almacena las compras realizadas y sus líneas de detalle, conservando los precios y cantidades correspondientes al momento de cada transacción.
+La colección `pedidos` almacena las compras realizadas por los clientes.
+
+Cada pedido contiene sus líneas de detalle, permitiendo conservar los productos, cantidades y precios correspondientes al momento en que se realizó la compra.
+
+El monto total del pedido se obtiene a partir de los subtotales incluidos en las líneas de detalle.
 
 
 ## 6. Prerrequisitos
