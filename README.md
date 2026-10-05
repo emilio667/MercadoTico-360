@@ -111,9 +111,15 @@ El monto total del pedido se obtiene a partir de los subtotales incluidos en las
 
 Antes de ejecutar el proyecto es necesario contar con:
 
+- Python instalado.
+
 - Una cuenta de MongoDB Atlas.
-- Acceso al clúster del proyecto.
-- [PENDIENTE: verificar otros requisitos]
+
+- Acceso al clúster de MongoDB Atlas utilizado por el proyecto.
+
+- PyMongo instalado.
+
+- Conexión a Internet para acceder al clúster alojado en MongoDB Atlas.
 
 
 ## 7. Instalación y configuración
