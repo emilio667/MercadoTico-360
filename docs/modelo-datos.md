@@ -4,20 +4,14 @@ Este documento describe el modelo de datos utilizado en MercadoTico 360.
 La solución utiliza MongoDB con un modelo orientado a documentos y está
 compuesta por cuatro colecciones principales:
 
-- productos
-- comercios
-- clientes
-- pedidos
-
-El diseño combina documentos independientes, referencias y estructuras
-embebidas según el tipo de información que se necesita almacenar.
+- Productos
+- Comercios
+- Clientes
+- Pedidos
 
 ## Productos
 
-La colección `productos` almacena el catálogo del marketplace.
-
-Cada producto pertenece a un comercio y puede tener atributos diferentes
-según su categoría.
+La colección `productos` almacena el catálogo del marketplace. Cada producto pertenece a un comercio y puede tener atributos diferentes según su categoría.
 
 Campos principales:
 
@@ -28,6 +22,17 @@ Campos principales:
 - `comercio_id`: Identificador del comercio que ofrece el producto.
 - `stock`: Cantidad disponible del producto.
 - `atributos`: Características específicas del producto.
+
+Las categorías permitidas son:
+
+- Alimentos
+- Ropa
+- Tecnología
+- Artesanías
+- Servicios
+- Hogar
+- Belleza
+- Deportes
 
 Ejemplo:
 
@@ -45,14 +50,11 @@ Ejemplo:
     }
 }
 
-El campo `atributos` se mantiene flexible debido a que las características
-pueden variar entre productos. Por ejemplo, un producto de ropa puede tener talla, color y material,
-mientras que un producto tecnológico puede tener garantía y voltaje.
+El campo `atributos` se mantiene flexible debido a que las características pueden variar entre productos. Por ejemplo, un producto de ropa puede tener talla, color y material, mientras que un producto tecnológico puede tener garantía y voltaje. Los atributos se almacenan embebidos porque pertenecen directamente al producto y permite manejar características diferentes según la categoría, mientras que `comercio_id` se utiliza como referencia porque un comercio puede estar relacionado con varios productos.
 
 ## Comercios
 
-La colección `comercios` almacena la información de los negocios que
-ofrecen productos dentro del marketplace.
+La colección `comercios` almacena la información de los negocios que ofrecen productos dentro del marketplace.
 
 Campos principales:
 
@@ -63,6 +65,17 @@ Campos principales:
 - `categoria`: Categoría general del comercio.
 - `estado`: Estado actual del comercio.
 - `direccion`: Objeto embebido con la ubicación del comercio.
+
+Las categorías permitidas para los comercios son:
+
+- Alimentos
+- Ropa
+- Tecnología
+- Artesanías
+- Servicios
+- Hogar
+- Belleza
+- Deportes
 
 La dirección contiene:
 
@@ -94,10 +107,11 @@ Los estados definidos para los comercios son:
 - Inactivo
 - En remodelación
 
+La dirección se almacena embebida porque forma parte directa de la información del comercio.
+
 ## Clientes
 
-La colección `clientes` almacena la información de los usuarios que realizan
-pedidos dentro del marketplace.
+La colección `clientes` almacena la información de los usuarios que realizan pedidos dentro del marketplace.
 
 Campos principales:
 
@@ -133,8 +147,7 @@ Ejemplo:
 
 ## Pedidos
 
-La colección `pedidos` almacena el historial de compras realizadas por los
-clientes.
+La colección `pedidos` almacena el historial de compras realizadas por los clientes.
 
 Campos principales:
 
@@ -179,8 +192,7 @@ Ejemplo:
     ]
 }
 
-Las líneas de detalle se almacenan embebidas dentro del pedido para conservar
-la información histórica de la compra.
+Las líneas de detalle se almacenan embebidas para conservar la información histórica de la compra, mientras que `cliente_id` y `producto_id` se utilizan como referencias a entidades independientes porque un pueden estar relacionados con varios pedidos.
 
 ## Relaciones entre colecciones
 
@@ -190,10 +202,7 @@ La relación se realiza mediante:
 
 productos.comercio_id -> comercios._id
 
-Cada producto está asociado a un comercio mediante el campo `comercio_id`.
-
-Un comercio puede ofrecer varios productos, mientras que cada producto está
-asociado a un único comercio.
+Cada producto está asociado a un comercio mediante el campo `comercio_id`. Un comercio puede ofrecer varios productos, mientras que cada producto está asociado a un único comercio.
 
 ### Relación entre pedidos y clientes
 
@@ -201,10 +210,7 @@ La relación se realiza mediante:
 
 pedidos.cliente_id -> clientes._id
 
-Cada pedido está asociado a un cliente mediante el campo `cliente_id`.
-
-Un cliente puede realizar varios pedidos, mientras que cada pedido está
-asociado a un único cliente.
+Cada pedido está asociado a un cliente mediante el campo `cliente_id`. Un cliente puede realizar varios pedidos, mientras que cada pedido está asociado a un único cliente.
 
 ### Relación entre pedidos y productos
 
@@ -212,16 +218,11 @@ La relación se realiza mediante:
 
 pedidos.lineas_detalle.producto_id -> productos._id
 
-Cada línea de detalle contiene el campo `producto_id`, que permite identificar
-el producto correspondiente.
-
-Un producto puede aparecer en múltiples pedidos, mientras que cada línea de
-detalle hace referencia a un único producto.
+Cada línea de detalle contiene el campo `producto_id`, que permite identificar el producto correspondiente. Un producto puede aparecer en múltiples pedidos, mientras que cada línea de detalle hace referencia a un único producto.
 
 ## Uso de documentos embebidos y referencias
 
-Se utilizan documentos embebidos cuando la información pertenece directamente
-al documento principal.
+Se utilizan documentos embebidos cuando la información pertenece directamente al documento principal.
 
 Ejemplos:
 
@@ -230,8 +231,7 @@ Ejemplos:
 - Líneas de detalle dentro de pedidos.
 - Atributos variables dentro de productos.
 
-Se utilizan referencias cuando la información corresponde a una entidad
-independiente que puede relacionarse con varios documentos.
+Se utilizan referencias cuando la información corresponde a una entidad independiente que puede relacionarse con varios documentos.
 
 Ejemplos:
 

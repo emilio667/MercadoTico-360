@@ -2,6 +2,18 @@
 
 from datetime import datetime
 
+#Categorías permitidas para los productos y comercios
+categorias_validas = {
+    "Alimentos",
+    "Ropa",
+    "Tecnología",
+    "Artesanías",
+    "Servicios",
+    "Hogar",
+    "Belleza",
+    "Deportes",
+}
+
 #Función para crear un producto
 def crear_estructura_producto(
     id_prod: str, #ID del producto, dato tipo texto
@@ -14,8 +26,16 @@ def crear_estructura_producto(
 ) -> dict:
 
     #Verifica que campos esenciales no estén vacíos
-    if not id_prod or not nombre or precio is None or stock is None:
-        raise ValueError("El ID, nombre, precio y stock del producto son obligatorios")
+    if not id_prod or not nombre or precio is None or stock is None or not categoria or not comercio_id:
+        raise ValueError(
+            "El ID, nombre, precio, categoría, comercio asociado y stock del producto son obligatorios"
+        )
+
+    #Verifica que la categoría del producto sea válida
+    if categoria not in categorias_validas:
+        raise ValueError(
+            "La categoría del producto debe ser Alimentos, Ropa, Tecnología, Artesanías, Servicios, Hogar, Belleza o Deportes"
+        )
 
     #Verifica que el precio del producto no sea menor a 0
     if precio < 0:
@@ -40,6 +60,7 @@ def crear_estructura_producto(
         "atributos": atributos,
     }
 
+
 #Función para crear un comercio
 def crear_estructura_comercio(
     id_comercio: str, #ID del comercio, dato tipo texto
@@ -55,14 +76,25 @@ def crear_estructura_comercio(
 ) -> dict:
 
     #Verifica que campos esenciales no estén vacíos
-    if not id_comercio or not nombre or not correo or not telefono:
-        raise ValueError("El ID, nombre, correo y teléfono del comercio son obligatorios")
+    if not id_comercio or not nombre or not correo or not telefono or not categoria or not estado:
+        raise ValueError(
+            "El ID, nombre, correo, teléfono, categoría y estado del comercio son obligatorios"
+        )
+
+    #Verifica que la categoría del comercio sea válida
+    if categoria not in categorias_validas:
+        raise ValueError(
+            "La categoría del comercio debe ser Alimentos, Ropa, Tecnología, "
+            "Artesanías, Servicios, Hogar, Belleza o Deportes"
+        )
 
     #Verifica que el estado del comercio sea válido
     estados_validos = {"Activo", "Inactivo", "En remodelación"}
 
     if estado not in estados_validos:
-        raise ValueError("El estado del comercio debe ser Activo, Inactivo o En remodelación")
+        raise ValueError(
+            "El estado del comercio debe ser Activo, Inactivo o En remodelación"
+        )
 
     #Diccionario de datos retornados con la información del comercio
     return {
@@ -80,6 +112,7 @@ def crear_estructura_comercio(
         },
     }
 
+
 #Función para crear un cliente
 def crear_estructura_cliente(
     id_cliente: str, #ID del cliente, dato tipo texto
@@ -95,7 +128,9 @@ def crear_estructura_cliente(
 
     #Verifica que campos esenciales no estén vacíos
     if not id_cliente or not nombre or not correo or not cedula or not telefono:
-        raise ValueError("El ID, nombre, correo, teléfono y cédula del cliente son obligatorios")
+        raise ValueError(
+            "El ID, nombre, correo, teléfono y cédula del cliente son obligatorios"
+        )
 
     #Diccionario de datos retornados con la información del cliente
     return {
@@ -112,25 +147,29 @@ def crear_estructura_cliente(
         },
     }
 
+
 #Función para crear un pedido
 def crear_estructura_pedido(
     id_pedido: str, #ID del pedido, dato tipo texto
     fecha_pedido: datetime, #Fecha y hora del pedido, dato tipo datetime
-    cliente_id: str, # ID del cliente que realizó el pedido, dato tipo texto
+    cliente_id: str, #ID del cliente que realizó el pedido, dato tipo texto
     estado_pedido: str, #Estado del pedido, dato tipo texto
     lineas_detalle: list, #Lista con los productos incluidos en el pedido
 ) -> dict:
 
     #Verifica que campos esenciales no estén vacíos
     if not id_pedido or not fecha_pedido or not cliente_id:
-        raise ValueError("El ID, fecha y cliente asociado del pedido son obligatorios")
+        raise ValueError(
+            "El ID, fecha y cliente asociado del pedido son obligatorios"
+        )
 
     #Verifica que el estado del pedido sea válido
     estados_validos = {"Cancelado", "Pendiente", "Enviado", "Entregado"}
 
     if estado_pedido not in estados_validos:
         raise ValueError(
-            "El estado del pedido debe ser Cancelado, Pendiente, Enviado o Entregado")
+            "El estado del pedido debe ser Cancelado, Pendiente, Enviado o Entregado"
+        )
 
     #Verifica que el pedido tenga al menos una línea de detalle
     if len(lineas_detalle) == 0:
@@ -148,22 +187,31 @@ def crear_estructura_pedido(
         }
 
         if not campos_requeridos.issubset(linea):
-            raise ValueError("Cada producto del pedido debe contener su ID, nombre, precio por unidad, cantidad pedida y subtotal")
+            raise ValueError(
+                "Cada producto del pedido debe contener su ID, nombre, "
+                "precio por unidad, cantidad pedida y subtotal"
+            )
 
         #Verifica que la cantidad pedida del producto sea mayor que cero
         if linea["cantidad"] <= 0:
-            raise ValueError("La cantidad pedida de cada producto debe ser mayor que cero")
+            raise ValueError(
+                "La cantidad pedida de cada producto debe ser mayor que cero"
+            )
 
         #Verifica que el precio por unidad del producto no sea menor a 0
         if linea["precio_unitario"] < 0:
-            raise ValueError("El precio por unidad del producto no puede ser menor a 0")
+            raise ValueError(
+                "El precio por unidad del producto no puede ser menor a 0"
+            )
 
         #Calcula el subtotal esperado del pedido
         subtotal_esperado = linea["precio_unitario"] * linea["cantidad"]
 
         #Verifica que el subtotal sea correcto
         if linea["subtotal"] != subtotal_esperado:
-            raise ValueError("El subtotal debe ser igual al precio por unidad por la cantidad de unidades pedidas")
+            raise ValueError(
+                "El subtotal debe ser igual al precio por unidad por la cantidad de unidades pedidas"
+            )
 
     #Calcula el monto total sumando los subtotales de cada producto pedido
     monto_total = sum(
@@ -180,6 +228,7 @@ def crear_estructura_pedido(
         "lineas_detalle": lineas_detalle,
     }
 
+
 #Ejemplo de producto
 ejemplo_producto_ropa = crear_estructura_producto(
     id_prod="PROD-001",
@@ -195,6 +244,7 @@ ejemplo_producto_ropa = crear_estructura_producto(
     },
 )
 
+
 #Ejemplo de comercio
 ejemplo_comercio = crear_estructura_comercio(
     id_comercio="COM-102",
@@ -209,6 +259,7 @@ ejemplo_comercio = crear_estructura_comercio(
     direccion_exacta="100 metros norte del parque central",
 )
 
+
 #Ejemplo de cliente
 ejemplo_cliente = crear_estructura_cliente(
     id_cliente="CLI-001",
@@ -222,7 +273,8 @@ ejemplo_cliente = crear_estructura_cliente(
     direccion_exacta="200 metros este de la iglesia",
 )
 
-# Ejemplo de líneas de detalle
+
+#Ejemplo de líneas de detalle
 lineas_ejemplo = [
     {
         "producto_id": "PROD-001",
@@ -233,6 +285,7 @@ lineas_ejemplo = [
     }
 ]
 
+
 #Ejemplo de pedido
 ejemplo_pedido = crear_estructura_pedido(
     id_pedido="PED-001",
@@ -241,6 +294,7 @@ ejemplo_pedido = crear_estructura_pedido(
     estado_pedido="Pendiente",
     lineas_detalle=lineas_ejemplo,
 )
+
 
 print(ejemplo_producto_ropa)
 print(ejemplo_comercio)
