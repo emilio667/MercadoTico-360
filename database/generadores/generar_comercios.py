@@ -1,12 +1,14 @@
 from faker import Faker
+from datetime import datetime
 from modelos import crear_estructura_comercio
 import json
 
 fake = Faker("es_ES")
 
+Faker.seed(67) 
 comercios = []
 
-for i in range(500):
+for i in range(200):
 
     comercio = crear_estructura_comercio(
         id_comercio=f"COM-{i+1:03d}",
@@ -37,10 +39,10 @@ for i in range(500):
             "direccion_exacta": fake.street_address()
         }
     )
-
+    comercio["creado_en"] = datetime.utcnow()
     comercios.append(comercio)
 
 with open("comercios.json", "w", encoding="utf-8") as archivo:
-    json.dump(comercios, archivo, ensure_ascii=False, indent=4)
+    json.dump(comercios, archivo, ensure_ascii=False, indent=4,default=str)
 
 print(f"Se generaron {len(comercios)} comercios")
