@@ -30,7 +30,7 @@ for i in range(10000):
             "direccion_exacta": fake.street_address()
         }
     )
-
+    cliente["creado_en"] = datetime.utcnow() #Se rearon marcas de fechas a los datos
     clientes.append(cliente)
 
 with open("clientes.json", "w", encoding="utf-8") as archivo:
