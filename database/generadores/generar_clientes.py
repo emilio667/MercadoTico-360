@@ -1,9 +1,10 @@
 from faker import Faker
+from datetime import datetime #tipo datetime
 from modelos import crear_estructura_cliente
 import json
 
 fake = Faker("es_ES")
-
+Faker.seed(67)
 clientes = []
 
 for i in range(10000):
@@ -33,6 +34,6 @@ for i in range(10000):
     clientes.append(cliente)
 
 with open("clientes.json", "w", encoding="utf-8") as archivo:
-    json.dump(clientes, archivo, ensure_ascii=False, indent=4)
+    json.dump(clientes, archivo, ensure_ascii=False, indent=4, default=str)
 
 print(f"Se generaron {len(clientes)} clientes")
