@@ -1,9 +1,32 @@
+import subprocess
+import sys
 import os
 
 print("=== CARGA DE DATOS MERCADOTICO360 ===")
 
-os.system("python seed_clientes.py")
-os.system("python seed_productos.py")
-os.system("python seed_pedidos.py")
+python = sys.executable
 
-print("Proceso finalizado")
+ruta_actual = os.path.dirname(__file__)
+
+scripts = [
+    "seed_comercios.py",
+    "seed_clientes.py",
+    "seed_productos.py",
+    "seed_pedidos.py"
+]
+
+for script in scripts:
+
+    print(f"\nEjecutando {script}...")
+
+    ruta_script = os.path.join(
+        ruta_actual,
+        script
+    )
+
+    subprocess.run(
+        [python, ruta_script],
+        check=True
+    )
+
+print("\nProceso finalizado correctamente")
