@@ -1,12 +1,13 @@
 from pymongo import MongoClient
 from modelos import crear_estructura_pedido
 from faker import Faker
+from datetime import datetime
 import random
 import json
 
 fake = Faker("es_ES")
-
-uri = ""
+Faker.seed(42)
+uri = ""   #aqui hay que poner el uri de cada 1
 
 client = MongoClient(uri)
 
