@@ -1,0 +1,80 @@
+{
+  "explainVersion": "1",
+  "queryPlanner": {
+    "namespace": "MercadoTico360.pedidos",
+    "indexFilterSet": false,
+    "parsedQuery": {
+      "lineas_detalle.producto_id": {
+        "$eq": "PROD-00001"
+      }
+    },
+    "queryHash": "934B2E8C",
+    "planCacheKey": "934B2E8C",
+    "optimizationTimeMillis": 0,
+    "maxIndexedOrSolutionsReached": false,
+    "maxIndexedAndSolutionsReached": false,
+    "maxScansToExplodeReached": false,
+    "winningPlan": {
+      "stage": "COLLSCAN",
+      "filter": {
+        "lineas_detalle.producto_id": {
+          "$eq": "PROD-00001"
+        }
+      },
+      "direction": "forward"
+    },
+    "rejectedPlans": []
+  },
+  "executionStats": {
+    "executionSuccess": true,
+    "nReturned": 16,
+    "executionTimeMillis": 233,
+    "totalKeysExamined": 0,
+    "totalDocsExamined": 50000,
+    "executionStages": {
+      "stage": "COLLSCAN",
+      "filter": {
+        "lineas_detalle.producto_id": {
+          "$eq": "PROD-00001"
+        }
+      },
+      "nReturned": 16,
+      "executionTimeMillisEstimate": 48,
+      "works": 50001,
+      "advanced": 16,
+      "needTime": 49984,
+      "needYield": 0,
+      "saveState": 50,
+      "restoreState": 50,
+      "isEOF": 1,
+      "direction": "forward",
+      "docsExamined": 50000
+    },
+    "allPlansExecution": []
+  },
+  "command": {
+    "find": "pedidos",
+    "filter": {
+      "lineas_detalle.producto_id": "PROD-00001"
+    },
+    "$db": "MercadoTico360"
+  },
+  "serverInfo": {
+    "host": "Laptop_Justin",
+    "port": 27017,
+    "version": "7.0.28",
+    "gitVersion": "cfc346c59d2cc3dbc903507fc642e22e3097f362"
+  },
+  "serverParameters": {
+    "internalQueryFacetBufferSizeBytes": 104857600,
+    "internalQueryFacetMaxOutputDocSizeBytes": 104857600,
+    "internalLookupStageIntermediateDocumentMaxSizeBytes": 104857600,
+    "internalDocumentSourceGroupMaxMemoryBytes": 104857600,
+    "internalQueryMaxBlockingSortMemoryUsageBytes": 104857600,
+    "internalQueryProhibitBlockingMergeOnMongoS": 0,
+    "internalQueryMaxAddToSetBytes": 104857600,
+    "internalDocumentSourceSetWindowFieldsMaxMemoryBytes": 104857600,
+    "internalQueryFrameworkControl": "forceClassicEngine"
+  },
+  "ok": 1.0
+}
