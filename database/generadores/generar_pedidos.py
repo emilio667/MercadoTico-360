@@ -10,6 +10,7 @@ from pymongo import MongoClient
 
 from database.schemas.modelos_de_estructuras import crear_estructura_pedido
 
+Faker.seed(123)
 fake = Faker("es_ES")
 
 #Carga las variables del archivo .env
