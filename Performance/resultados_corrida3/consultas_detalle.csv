@@ -1,0 +1,15 @@
+﻿consulta,descripcion,condicion,coleccion,devueltos,n,mediana_ms,p95_ms,media_ms,min_ms,max_ms,etapa_principal,etapas,indice_usado,docs_examinados,claves_examinadas,docs_devueltos,explain_ms
+Q1_categoria,Productos de una categoria,sin_indice,productos,3052,30,47.59,71.627,48.973,38.944,76.852,COLLSCAN,COLLSCAN,,25000,0,3052,31
+Q2_rango_precio,Productos en un rango de precio,sin_indice,productos,1029,30,65.426,83.755,66.697,40.759,107.74,COLLSCAN,COLLSCAN,,25000,0,1029,71
+Q3_categoria_precio,Productos por categoria y rango de precio,sin_indice,productos,286,30,41.362,56.574,41.667,31.517,58.045,COLLSCAN,COLLSCAN,,25000,0,286,77
+Q4_categoria_precio_talla,Categoria + rango de precio + atributo especifico (talla),sin_indice,productos,168,30,62.165,93.406,66.455,47.104,103.329,COLLSCAN,COLLSCAN,,25000,0,168,44
+Q5_comercio,Productos de un comercio,sin_indice,productos,54,30,50.703,75.789,52.689,33.232,77.992,COLLSCAN,COLLSCAN,,25000,0,54,68
+Q6_pedidos_cliente,Pedidos de un cliente ordenados por fecha,sin_indice,pedidos,6,30,146.726,170.067,145.85,113.883,173.225,COLLSCAN,SORT>COLLSCAN,,50000,0,6,77
+Q7_pedidos_producto,Pedidos que contienen un producto,sin_indice,pedidos,16,30,231.368,279.753,233.506,186.289,288.675,COLLSCAN,COLLSCAN,,50000,0,16,276
+Q1_categoria,Productos de una categoria,con_indice,productos,3052,30,29.836,37.592,31.207,27.69,49.688,IXSCAN,FETCH>IXSCAN,idx_categoria_precio,3052,3052,3052,5
+Q2_rango_precio,Productos en un rango de precio,con_indice,productos,1029,30,13.259,19.981,13.639,10.5,22.358,IXSCAN,FETCH>IXSCAN,idx_precio,1029,1029,1029,7
+Q3_categoria_precio,Productos por categoria y rango de precio,con_indice,productos,286,30,5.889,8.73,5.856,3.522,8.802,IXSCAN,FETCH>IXSCAN,idx_categoria_precio,286,286,286,0
+Q4_categoria_precio_talla,Categoria + rango de precio + atributo especifico (talla),con_indice,productos,168,30,8.364,13.32,9.071,5.04,21.008,IXSCAN,FETCH>IXSCAN,idx_categoria_precio,1180,1180,168,16
+Q5_comercio,Productos de un comercio,con_indice,productos,54,30,1.529,3.121,1.673,0.831,3.311,IXSCAN,FETCH>IXSCAN,idx_comercio,54,54,54,0
+Q6_pedidos_cliente,Pedidos de un cliente ordenados por fecha,con_indice,pedidos,6,30,1.115,3.31,1.458,0.46,3.65,IXSCAN,FETCH>IXSCAN,idx_cliente_fecha,6,6,6,0
+Q7_pedidos_producto,Pedidos que contienen un producto,con_indice,pedidos,16,30,2.073,3.696,2.18,0.82,5.157,IXSCAN,FETCH>IXSCAN,idx_lineas_producto,16,16,16,0

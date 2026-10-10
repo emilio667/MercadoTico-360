@@ -1,0 +1,459 @@
+{
+  "explainVersion": "1",
+  "queryPlanner": {
+    "namespace": "MercadoTico360.productos",
+    "indexFilterSet": false,
+    "parsedQuery": {
+      "$and": [
+        {
+          "atributos.talla": {
+            "$eq": "M"
+          }
+        },
+        {
+          "categoria": {
+            "$eq": "Ropa"
+          }
+        },
+        {
+          "precio": {
+            "$lte": 250000
+          }
+        },
+        {
+          "precio": {
+            "$gte": 50000
+          }
+        }
+      ]
+    },
+    "queryHash": "8CA462E1",
+    "planCacheKey": "40F52644",
+    "optimizationTimeMillis": 12,
+    "maxIndexedOrSolutionsReached": false,
+    "maxIndexedAndSolutionsReached": false,
+    "maxScansToExplodeReached": false,
+    "winningPlan": {
+      "stage": "FETCH",
+      "filter": {
+        "atributos.talla": {
+          "$eq": "M"
+        }
+      },
+      "inputStage": {
+        "stage": "IXSCAN",
+        "keyPattern": {
+          "categoria": 1,
+          "precio": 1
+        },
+        "indexName": "idx_categoria_precio",
+        "isMultiKey": false,
+        "multiKeyPaths": {
+          "categoria": [],
+          "precio": []
+        },
+        "isUnique": false,
+        "isSparse": false,
+        "isPartial": false,
+        "indexVersion": 2,
+        "direction": "forward",
+        "indexBounds": {
+          "categoria": [
+            "[\"Ropa\", \"Ropa\"]"
+          ],
+          "precio": [
+            "[50000, 250000]"
+          ]
+        }
+      }
+    },
+    "rejectedPlans": [
+      {
+        "stage": "FETCH",
+        "filter": {
+          "$and": [
+            {
+              "atributos.talla": {
+                "$eq": "M"
+              }
+            },
+            {
+              "categoria": {
+                "$eq": "Ropa"
+              }
+            }
+          ]
+        },
+        "inputStage": {
+          "stage": "IXSCAN",
+          "keyPattern": {
+            "precio": 1
+          },
+          "indexName": "idx_precio",
+          "isMultiKey": false,
+          "multiKeyPaths": {
+            "precio": []
+          },
+          "isUnique": false,
+          "isSparse": false,
+          "isPartial": false,
+          "indexVersion": 2,
+          "direction": "forward",
+          "indexBounds": {
+            "precio": [
+              "[50000, 250000]"
+            ]
+          }
+        }
+      },
+      {
+        "stage": "FETCH",
+        "filter": {
+          "$and": [
+            {
+              "categoria": {
+                "$eq": "Ropa"
+              }
+            },
+            {
+              "precio": {
+                "$lte": 250000
+              }
+            },
+            {
+              "precio": {
+                "$gte": 50000
+              }
+            }
+          ]
+        },
+        "inputStage": {
+          "stage": "IXSCAN",
+          "keyPattern": {
+            "atributos.talla": 1
+          },
+          "indexName": "idx_atributos_talla",
+          "isMultiKey": false,
+          "multiKeyPaths": {
+            "atributos.talla": []
+          },
+          "isUnique": false,
+          "isSparse": false,
+          "isPartial": false,
+          "indexVersion": 2,
+          "direction": "forward",
+          "indexBounds": {
+            "atributos.talla": [
+              "[\"M\", \"M\"]"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  "executionStats": {
+    "executionSuccess": true,
+    "nReturned": 168,
+    "executionTimeMillis": 16,
+    "totalKeysExamined": 1180,
+    "totalDocsExamined": 1180,
+    "executionStages": {
+      "stage": "FETCH",
+      "filter": {
+        "atributos.talla": {
+          "$eq": "M"
+        }
+      },
+      "nReturned": 168,
+      "executionTimeMillisEstimate": 0,
+      "works": 1181,
+      "advanced": 168,
+      "needTime": 1012,
+      "needYield": 0,
+      "saveState": 2,
+      "restoreState": 2,
+      "isEOF": 1,
+      "docsExamined": 1180,
+      "alreadyHasObj": 0,
+      "inputStage": {
+        "stage": "IXSCAN",
+        "nReturned": 1180,
+        "executionTimeMillisEstimate": 0,
+        "works": 1181,
+        "advanced": 1180,
+        "needTime": 0,
+        "needYield": 0,
+        "saveState": 2,
+        "restoreState": 2,
+        "isEOF": 1,
+        "keyPattern": {
+          "categoria": 1,
+          "precio": 1
+        },
+        "indexName": "idx_categoria_precio",
+        "isMultiKey": false,
+        "multiKeyPaths": {
+          "categoria": [],
+          "precio": []
+        },
+        "isUnique": false,
+        "isSparse": false,
+        "isPartial": false,
+        "indexVersion": 2,
+        "direction": "forward",
+        "indexBounds": {
+          "categoria": [
+            "[\"Ropa\", \"Ropa\"]"
+          ],
+          "precio": [
+            "[50000, 250000]"
+          ]
+        },
+        "keysExamined": 1180,
+        "seeks": 1,
+        "dupsTested": 0,
+        "dupsDropped": 0
+      }
+    },
+    "allPlansExecution": [
+      {
+        "nReturned": 101,
+        "executionTimeMillisEstimate": 0,
+        "totalKeysExamined": 727,
+        "totalDocsExamined": 727,
+        "score": 1.139127097661623,
+        "executionStages": {
+          "stage": "FETCH",
+          "filter": {
+            "atributos.talla": {
+              "$eq": "M"
+            }
+          },
+          "nReturned": 101,
+          "executionTimeMillisEstimate": 0,
+          "works": 727,
+          "advanced": 101,
+          "needTime": 626,
+          "needYield": 0,
+          "saveState": 2,
+          "restoreState": 2,
+          "isEOF": 0,
+          "docsExamined": 727,
+          "alreadyHasObj": 0,
+          "inputStage": {
+            "stage": "IXSCAN",
+            "nReturned": 727,
+            "executionTimeMillisEstimate": 0,
+            "works": 727,
+            "advanced": 727,
+            "needTime": 0,
+            "needYield": 0,
+            "saveState": 2,
+            "restoreState": 2,
+            "isEOF": 0,
+            "keyPattern": {
+              "categoria": 1,
+              "precio": 1
+            },
+            "indexName": "idx_categoria_precio",
+            "isMultiKey": false,
+            "multiKeyPaths": {
+              "categoria": [],
+              "precio": []
+            },
+            "isUnique": false,
+            "isSparse": false,
+            "isPartial": false,
+            "indexVersion": 2,
+            "direction": "forward",
+            "indexBounds": {
+              "categoria": [
+                "[\"Ropa\", \"Ropa\"]"
+              ],
+              "precio": [
+                "[50000, 250000]"
+              ]
+            },
+            "keysExamined": 727,
+            "seeks": 1,
+            "dupsTested": 0,
+            "dupsDropped": 0
+          }
+        }
+      },
+      {
+        "nReturned": 10,
+        "executionTimeMillisEstimate": 0,
+        "totalKeysExamined": 727,
+        "totalDocsExamined": 727,
+        "score": 1.0139551581843191,
+        "executionStages": {
+          "stage": "FETCH",
+          "filter": {
+            "$and": [
+              {
+                "atributos.talla": {
+                  "$eq": "M"
+                }
+              },
+              {
+                "categoria": {
+                  "$eq": "Ropa"
+                }
+              }
+            ]
+          },
+          "nReturned": 10,
+          "executionTimeMillisEstimate": 0,
+          "works": 727,
+          "advanced": 10,
+          "needTime": 717,
+          "needYield": 0,
+          "saveState": 3,
+          "restoreState": 2,
+          "isEOF": 0,
+          "docsExamined": 727,
+          "alreadyHasObj": 0,
+          "inputStage": {
+            "stage": "IXSCAN",
+            "nReturned": 727,
+            "executionTimeMillisEstimate": 0,
+            "works": 727,
+            "advanced": 727,
+            "needTime": 0,
+            "needYield": 0,
+            "saveState": 3,
+            "restoreState": 2,
+            "isEOF": 0,
+            "keyPattern": {
+              "precio": 1
+            },
+            "indexName": "idx_precio",
+            "isMultiKey": false,
+            "multiKeyPaths": {
+              "precio": []
+            },
+            "isUnique": false,
+            "isSparse": false,
+            "isPartial": false,
+            "indexVersion": 2,
+            "direction": "forward",
+            "indexBounds": {
+              "precio": [
+                "[50000, 250000]"
+              ]
+            },
+            "keysExamined": 727,
+            "seeks": 1,
+            "dupsTested": 0,
+            "dupsDropped": 0
+          }
+        }
+      },
+      {
+        "nReturned": 94,
+        "executionTimeMillisEstimate": 1,
+        "totalKeysExamined": 727,
+        "totalDocsExamined": 727,
+        "score": 1.1294984869325997,
+        "executionStages": {
+          "stage": "FETCH",
+          "filter": {
+            "$and": [
+              {
+                "categoria": {
+                  "$eq": "Ropa"
+                }
+              },
+              {
+                "precio": {
+                  "$lte": 250000
+                }
+              },
+              {
+                "precio": {
+                  "$gte": 50000
+                }
+              }
+            ]
+          },
+          "nReturned": 94,
+          "executionTimeMillisEstimate": 1,
+          "works": 727,
+          "advanced": 94,
+          "needTime": 633,
+          "needYield": 0,
+          "saveState": 3,
+          "restoreState": 2,
+          "isEOF": 0,
+          "docsExamined": 727,
+          "alreadyHasObj": 0,
+          "inputStage": {
+            "stage": "IXSCAN",
+            "nReturned": 727,
+            "executionTimeMillisEstimate": 0,
+            "works": 727,
+            "advanced": 727,
+            "needTime": 0,
+            "needYield": 0,
+            "saveState": 3,
+            "restoreState": 2,
+            "isEOF": 0,
+            "keyPattern": {
+              "atributos.talla": 1
+            },
+            "indexName": "idx_atributos_talla",
+            "isMultiKey": false,
+            "multiKeyPaths": {
+              "atributos.talla": []
+            },
+            "isUnique": false,
+            "isSparse": false,
+            "isPartial": false,
+            "indexVersion": 2,
+            "direction": "forward",
+            "indexBounds": {
+              "atributos.talla": [
+                "[\"M\", \"M\"]"
+              ]
+            },
+            "keysExamined": 727,
+            "seeks": 1,
+            "dupsTested": 0,
+            "dupsDropped": 0
+          }
+        }
+      }
+    ]
+  },
+  "command": {
+    "find": "productos",
+    "filter": {
+      "categoria": "Ropa",
+      "precio": {
+        "$gte": 50000,
+        "$lte": 250000
+      },
+      "atributos.talla": "M"
+    },
+    "$db": "MercadoTico360"
+  },
+  "serverInfo": {
+    "host": "Laptop_Justin",
+    "port": 27017,
+    "version": "7.0.28",
+    "gitVersion": "cfc346c59d2cc3dbc903507fc642e22e3097f362"
+  },
+  "serverParameters": {
+    "internalQueryFacetBufferSizeBytes": 104857600,
+    "internalQueryFacetMaxOutputDocSizeBytes": 104857600,
+    "internalLookupStageIntermediateDocumentMaxSizeBytes": 104857600,
+    "internalDocumentSourceGroupMaxMemoryBytes": 104857600,
+    "internalQueryMaxBlockingSortMemoryUsageBytes": 104857600,
+    "internalQueryProhibitBlockingMergeOnMongoS": 0,
+    "internalQueryMaxAddToSetBytes": 104857600,
+    "internalDocumentSourceSetWindowFieldsMaxMemoryBytes": 104857600,
+    "internalQueryFrameworkControl": "forceClassicEngine"
+  },
+  "ok": 1.0
+}

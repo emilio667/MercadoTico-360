@@ -1,0 +1,137 @@
+{
+  "explainVersion": "1",
+  "queryPlanner": {
+    "namespace": "MercadoTico360.pedidos",
+    "indexFilterSet": false,
+    "parsedQuery": {
+      "cliente_id": {
+        "$eq": "CLI-00001"
+      }
+    },
+    "queryHash": "FEE4F912",
+    "planCacheKey": "768FEA2B",
+    "optimizationTimeMillis": 0,
+    "maxIndexedOrSolutionsReached": false,
+    "maxIndexedAndSolutionsReached": false,
+    "maxScansToExplodeReached": false,
+    "winningPlan": {
+      "stage": "FETCH",
+      "inputStage": {
+        "stage": "IXSCAN",
+        "keyPattern": {
+          "cliente_id": 1,
+          "fecha": -1
+        },
+        "indexName": "idx_cliente_fecha",
+        "isMultiKey": false,
+        "multiKeyPaths": {
+          "cliente_id": [],
+          "fecha": []
+        },
+        "isUnique": false,
+        "isSparse": false,
+        "isPartial": false,
+        "indexVersion": 2,
+        "direction": "forward",
+        "indexBounds": {
+          "cliente_id": [
+            "[\"CLI-00001\", \"CLI-00001\"]"
+          ],
+          "fecha": [
+            "[MaxKey, MinKey]"
+          ]
+        }
+      }
+    },
+    "rejectedPlans": []
+  },
+  "executionStats": {
+    "executionSuccess": true,
+    "nReturned": 6,
+    "executionTimeMillis": 0,
+    "totalKeysExamined": 6,
+    "totalDocsExamined": 6,
+    "executionStages": {
+      "stage": "FETCH",
+      "nReturned": 6,
+      "executionTimeMillisEstimate": 0,
+      "works": 7,
+      "advanced": 6,
+      "needTime": 0,
+      "needYield": 0,
+      "saveState": 0,
+      "restoreState": 0,
+      "isEOF": 1,
+      "docsExamined": 6,
+      "alreadyHasObj": 0,
+      "inputStage": {
+        "stage": "IXSCAN",
+        "nReturned": 6,
+        "executionTimeMillisEstimate": 0,
+        "works": 7,
+        "advanced": 6,
+        "needTime": 0,
+        "needYield": 0,
+        "saveState": 0,
+        "restoreState": 0,
+        "isEOF": 1,
+        "keyPattern": {
+          "cliente_id": 1,
+          "fecha": -1
+        },
+        "indexName": "idx_cliente_fecha",
+        "isMultiKey": false,
+        "multiKeyPaths": {
+          "cliente_id": [],
+          "fecha": []
+        },
+        "isUnique": false,
+        "isSparse": false,
+        "isPartial": false,
+        "indexVersion": 2,
+        "direction": "forward",
+        "indexBounds": {
+          "cliente_id": [
+            "[\"CLI-00001\", \"CLI-00001\"]"
+          ],
+          "fecha": [
+            "[MaxKey, MinKey]"
+          ]
+        },
+        "keysExamined": 6,
+        "seeks": 1,
+        "dupsTested": 0,
+        "dupsDropped": 0
+      }
+    },
+    "allPlansExecution": []
+  },
+  "command": {
+    "find": "pedidos",
+    "filter": {
+      "cliente_id": "CLI-00001"
+    },
+    "sort": {
+      "fecha": -1
+    },
+    "$db": "MercadoTico360"
+  },
+  "serverInfo": {
+    "host": "Laptop_Justin",
+    "port": 27017,
+    "version": "7.0.28",
+    "gitVersion": "cfc346c59d2cc3dbc903507fc642e22e3097f362"
+  },
+  "serverParameters": {
+    "internalQueryFacetBufferSizeBytes": 104857600,
+    "internalQueryFacetMaxOutputDocSizeBytes": 104857600,
+    "internalLookupStageIntermediateDocumentMaxSizeBytes": 104857600,
+    "internalDocumentSourceGroupMaxMemoryBytes": 104857600,
+    "internalQueryMaxBlockingSortMemoryUsageBytes": 104857600,
+    "internalQueryProhibitBlockingMergeOnMongoS": 0,
+    "internalQueryMaxAddToSetBytes": 104857600,
+    "internalDocumentSourceSetWindowFieldsMaxMemoryBytes": 104857600,
+    "internalQueryFrameworkControl": "forceClassicEngine"
+  },
+  "ok": 1.0
+}

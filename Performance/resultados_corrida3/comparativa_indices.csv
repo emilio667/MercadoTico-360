@@ -1,0 +1,8 @@
+﻿consulta,descripcion,devueltos,mediana_sin_ms,mediana_con_ms,p95_sin_ms,p95_con_ms,mejora_mediana_pct,docs_examinados_sin,docs_examinados_con,etapa_sin,etapa_con,indice_usado
+Q1_categoria,Productos de una categoria,3052,47.59,29.836,71.627,37.592,37.3,25000,3052,COLLSCAN,IXSCAN,idx_categoria_precio
+Q2_rango_precio,Productos en un rango de precio,1029,65.426,13.259,83.755,19.981,79.7,25000,1029,COLLSCAN,IXSCAN,idx_precio
+Q3_categoria_precio,Productos por categoria y rango de precio,286,41.362,5.889,56.574,8.73,85.8,25000,286,COLLSCAN,IXSCAN,idx_categoria_precio
+Q4_categoria_precio_talla,Categoria + rango de precio + atributo especifico (talla),168,62.165,8.364,93.406,13.32,86.5,25000,1180,COLLSCAN,IXSCAN,idx_categoria_precio
+Q5_comercio,Productos de un comercio,54,50.703,1.529,75.789,3.121,97.0,25000,54,COLLSCAN,IXSCAN,idx_comercio
+Q6_pedidos_cliente,Pedidos de un cliente ordenados por fecha,6,146.726,1.115,170.067,3.31,99.2,50000,6,COLLSCAN,IXSCAN,idx_cliente_fecha
+Q7_pedidos_producto,Pedidos que contienen un producto,16,231.368,2.073,279.753,3.696,99.1,50000,16,COLLSCAN,IXSCAN,idx_lineas_producto

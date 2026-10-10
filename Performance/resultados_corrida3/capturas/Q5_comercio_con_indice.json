@@ -1,0 +1,124 @@
+{
+  "explainVersion": "1",
+  "queryPlanner": {
+    "namespace": "MercadoTico360.productos",
+    "indexFilterSet": false,
+    "parsedQuery": {
+      "comercio_id": {
+        "$eq": "COM-001"
+      }
+    },
+    "queryHash": "DCBFCEA3",
+    "planCacheKey": "D88A3CE3",
+    "optimizationTimeMillis": 0,
+    "maxIndexedOrSolutionsReached": false,
+    "maxIndexedAndSolutionsReached": false,
+    "maxScansToExplodeReached": false,
+    "winningPlan": {
+      "stage": "FETCH",
+      "inputStage": {
+        "stage": "IXSCAN",
+        "keyPattern": {
+          "comercio_id": 1
+        },
+        "indexName": "idx_comercio",
+        "isMultiKey": false,
+        "multiKeyPaths": {
+          "comercio_id": []
+        },
+        "isUnique": false,
+        "isSparse": false,
+        "isPartial": false,
+        "indexVersion": 2,
+        "direction": "forward",
+        "indexBounds": {
+          "comercio_id": [
+            "[\"COM-001\", \"COM-001\"]"
+          ]
+        }
+      }
+    },
+    "rejectedPlans": []
+  },
+  "executionStats": {
+    "executionSuccess": true,
+    "nReturned": 54,
+    "executionTimeMillis": 0,
+    "totalKeysExamined": 54,
+    "totalDocsExamined": 54,
+    "executionStages": {
+      "stage": "FETCH",
+      "nReturned": 54,
+      "executionTimeMillisEstimate": 0,
+      "works": 55,
+      "advanced": 54,
+      "needTime": 0,
+      "needYield": 0,
+      "saveState": 0,
+      "restoreState": 0,
+      "isEOF": 1,
+      "docsExamined": 54,
+      "alreadyHasObj": 0,
+      "inputStage": {
+        "stage": "IXSCAN",
+        "nReturned": 54,
+        "executionTimeMillisEstimate": 0,
+        "works": 55,
+        "advanced": 54,
+        "needTime": 0,
+        "needYield": 0,
+        "saveState": 0,
+        "restoreState": 0,
+        "isEOF": 1,
+        "keyPattern": {
+          "comercio_id": 1
+        },
+        "indexName": "idx_comercio",
+        "isMultiKey": false,
+        "multiKeyPaths": {
+          "comercio_id": []
+        },
+        "isUnique": false,
+        "isSparse": false,
+        "isPartial": false,
+        "indexVersion": 2,
+        "direction": "forward",
+        "indexBounds": {
+          "comercio_id": [
+            "[\"COM-001\", \"COM-001\"]"
+          ]
+        },
+        "keysExamined": 54,
+        "seeks": 1,
+        "dupsTested": 0,
+        "dupsDropped": 0
+      }
+    },
+    "allPlansExecution": []
+  },
+  "command": {
+    "find": "productos",
+    "filter": {
+      "comercio_id": "COM-001"
+    },
+    "$db": "MercadoTico360"
+  },
+  "serverInfo": {
+    "host": "Laptop_Justin",
+    "port": 27017,
+    "version": "7.0.28",
+    "gitVersion": "cfc346c59d2cc3dbc903507fc642e22e3097f362"
+  },
+  "serverParameters": {
+    "internalQueryFacetBufferSizeBytes": 104857600,
+    "internalQueryFacetMaxOutputDocSizeBytes": 104857600,
+    "internalLookupStageIntermediateDocumentMaxSizeBytes": 104857600,
+    "internalDocumentSourceGroupMaxMemoryBytes": 104857600,
+    "internalQueryMaxBlockingSortMemoryUsageBytes": 104857600,
+    "internalQueryProhibitBlockingMergeOnMongoS": 0,
+    "internalQueryMaxAddToSetBytes": 104857600,
+    "internalDocumentSourceSetWindowFieldsMaxMemoryBytes": 104857600,
+    "internalQueryFrameworkControl": "forceClassicEngine"
+  },
+  "ok": 1.0
+}
