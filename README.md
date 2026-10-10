@@ -312,7 +312,7 @@ Presentación de los resultados reales de las pruebas, incluyendo evidencias y o
 - Alcance funcional: el proyecto se enfoca en el diseño e implementación de la base de datos, sin desarrollar una aplicación completa de comercio electrónico.
 - Interfaz de usuario: no se contempla el desarrollo de interfaces gráficas para clientes o administradores.
 - Procesamiento de pagos: no se incluyen pasarelas de pago ni transacciones financieras reales.
-Logística: no se implementan procesos de envío o distribución de productos.
+Logística: no se implementan procesos de envio o distribución de productos.
 - Dependencia de MongoDB Atlas: el acceso a la base de datos requiere conectividad y disponibilidad del servicio en la nube.
 
 ## 13. Estructura del repositorio
