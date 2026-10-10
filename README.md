@@ -299,8 +299,23 @@ Evaluación de los tiempos de respuesta de las consultas y comparación del rend
 
 Presentación de los resultados reales de las pruebas, incluyendo evidencias y observaciones
 
+## 12. Riesgos y limitaciones
 
-## 12. Estructura del repositorio
+### 12.1 Riesgos del proyecto
+- Conexión a MongoDB Atlas: posibles interrupciones del servicio o problemas de conectividad.
+- Seguridad de los datos: riesgo de acceso no autorizado si las credenciales no se protegen adecuadamente.
+- Rendimiento: posibles tiempos de respuesta elevados cuando aumente el volumen de información.
+- Integridad de los datos: riesgo de inconsistencias si no se validan correctamente los documentos y las operaciones.
+
+### 12.2 Limitaciones del proyecto
+
+- Alcance funcional: el proyecto se enfoca en el diseño e implementación de la base de datos, sin desarrollar una aplicación completa de comercio electrónico.
+- Interfaz de usuario: no se contempla el desarrollo de interfaces gráficas para clientes o administradores.
+- Procesamiento de pagos: no se incluyen pasarelas de pago ni transacciones financieras reales.
+Logística: no se implementan procesos de envío o distribución de productos.
+- Dependencia de MongoDB Atlas: el acceso a la base de datos requiere conectividad y disponibilidad del servicio en la nube.
+
+## 13. Estructura del repositorio
 
 ```text
 
@@ -369,7 +384,7 @@ MercadoTico-360/
 - `Paper técnico/`: archivos relacionados con el paper técnico.
 
 
-## 13. Autores
+## 14. Autores
 
 - Adrián Quesada Jiménez
 - Camila Alpízar Alfaro
