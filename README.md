@@ -281,9 +281,23 @@ El proyecto contempla índices para optimizar consultas frecuentes, entre ellos:
 [PENDIENTE: agregar los comandos definitivos de demostracion cuando los archivos de consultas e indices esten implementados]
 
 
-## 11. Resultados
+## 11. Pruebas y resultados
 
-[PENDIENTE: agregar resultados obtenidos durante las pruebas]
+### 11.1 Plan de pruebas
+
+Descripción de las pruebas que se realizarán para verificar el funcionamiento de la base de datos.
+
+### 11.2 Pruebas funcionales
+
+Validación de inserciones, consultas, actualizaciones y operaciones sobre las colecciones.
+
+### 11.3 Pruebas de rendimiento
+
+Evaluación de los tiempos de respuesta de las consultas y comparación del rendimiento con y sin índices.
+
+### 11.4 Resultados obtenidos
+
+Presentación de los resultados reales de las pruebas, incluyendo evidencias y observaciones
 
 
 ## 12. Estructura del repositorio
