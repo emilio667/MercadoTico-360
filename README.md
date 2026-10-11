@@ -98,9 +98,7 @@ Los datos son sintéticos: las localidades producidas por Faker no necesariament
 
 La coleccion `pedidos` almacena las compras realizadas por los clientes.
 
-Cada pedido contiene sus lineas de detalle, permitiendo conservar los productos, cantidades y precios correspondientes al momento en que se realizo la compra.
-
-El monto total del pedido se obtiene a partir de los subtotales incluidos en las lineas de detalle.
+Los pedidos incluyen datos como: fecha, cliente, estado, monto total y el arreglo `lineas_detalle` la cual almacena (`producto_id`, `nombre_producto`, `precio_unitario`, `cantidad` y `subtotal`).
 
 
 ## 6. Prerrequisitos
