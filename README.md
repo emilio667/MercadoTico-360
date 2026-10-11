@@ -100,6 +100,11 @@ La coleccion `pedidos` almacena las compras realizadas por los clientes.
 
 Los pedidos incluyen datos como: fecha, cliente, estado, monto total y el arreglo `lineas_detalle` la cual almacena (`producto_id`, `nombre_producto`, `precio_unitario`, `cantidad` y `subtotal`).
 
+### 5.4 Comercios
+
+La colección  `comercios` almacena los negocios asociados al catálogo, el cual tiene datos de contacto, categoría, estado y dirección. `productos.
+
+Tenemos `comercio_id` que identifica el comercio correspondiente.
 
 ## 6. Prerrequisitos
 
