@@ -457,9 +457,22 @@ En estas siete consultas, el plan registrado pasa de `COLLSCAN` (exploración de
 | 50 | 1000 | 339.0 | 90.902 | 199.35 |
 | 100 | 2000 | 304.8 | 143.815 | 347.905 |
 
-Las pruebas muestran que la latencia aumenta con el número de hilos  en la corrida.
+Las pruebas muestran que la latencia aumenta con el número de hilos.
 
 ![Resultados de concurrencia](Performance/resultados_corrida3/graficos/fig3_concurrencia.png)
+
+
+### 11.6 Agregaciones
+
+| Agregación | Resultados devueltos | Repeticiones | Mediana (ms) | p95 (ms) |
+|---|---:|---:|---:|---:|
+| `A1_ventas_por_categoria` | 8 | 5 | 33550.63 | 38602.80 |
+| `A2_ticket_promedio` | 1 | 5 | 230.43 | 294.49 |
+| `A3_productos_mas_vendidos` | 10 | 5 | 685.92 | 719.66 |
+
+La agregación de ventas por categoría fue la más costosa de las tres.
+
+![Resultados de agregaciones](Performance/resultados_corrida3/graficos/fig4_agregaciones.png)
 
 
 ## 12. Riesgos y limitaciones
