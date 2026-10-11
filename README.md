@@ -512,7 +512,18 @@ Los resultados de corridas anteriores permanecen en `Performance/resultados/` y 
 
 ## 12. Riesgos y limitaciones
 
-### 12.1 Riesgos del proyecto
+### 12.1 Riesgos técnicos
+
+Los riesgos identificados por el equipo se documentan en [`Performance/Riesgos`](Performance/Riesgos). 
+
+- Credenciales expuestas: mantener `.env` fuera de Git y rotar cualquier clave comprometida.
+- Reproducibilidad del entorno: proporcionar instrucciones claras para configurar MongoDB y sus dependencias.
+- Integridad histórica: verificar que las líneas del pedido conserven nombre, precio y cantidad originales.
+- Indices insuficientes: revisar los planes con `explain("executionStats")` y contrastar índices con consultas reales.
+- Atributos inconsistentes: validar los documentos y las convenciones de campos por categoría.
+- Interferencia entre pruebas: usar una base separada para evitar afectar a otras personas.
+
+Asi mismo se incluyen riesgos generales del proyecto:
 - Conexión a MongoDB Atlas: posibles interrupciones del servicio o problemas de conectividad.
 - Seguridad de los datos: riesgo de acceso no autorizado si las credenciales no se protegen adecuadamente.
 - Rendimiento: posibles tiempos de respuesta elevados cuando aumente el volumen de información.
