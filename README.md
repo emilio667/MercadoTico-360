@@ -352,17 +352,27 @@ Las consultas de agregación para obtener información útil para el negocio, co
  Las consultas analíticas del benchmark se definen también en [`Performance/scripts/benchmark.py`](Performance/scripts/benchmark.py).
 
 
-### 10.4 Índices
+### 10.5 Índices y planes de ejecución
 
-El proyecto contempla índices para optimizar consultas frecuentes, entre ellos:
+Benchmark evalúa los índices:
 
-- Categoría y precio.
+| Índice | Colección | Campos |
+|---|---|---|
+| `idx_categoria_precio` | productos | `categoria` asc., `precio` asc. |
+| `idx_precio` | productos | `precio` asc. |
+| `idx_atributos_talla` | productos | `atributos.talla` asc. |
+| `idx_comercio` | productos | `comercio_id` asc. |
+| `idx_cliente_fecha` | pedidos | `cliente_id` asc., `fecha` desc. |
+| `idx_lineas_producto` | pedidos | `lineas_detalle.producto_id` asc. |
 
-- Atributos específicos de productos.
+Para inspeccionar una consulta en `mongosh`:
 
-- Cliente y fecha de los pedidos.
+```javascript
+db.productos.find({categoria: "Tecnología"}).explain("executionStats")
+```
 
-[PENDIENTE: agregar los comandos definitivos de demostracion cuando los archivos de consultas e indices esten implementados]
+Los archivos JSON de `Performance/resultados_corrida3/capturas/` conservan las salidas `explain` con y sin índice para las siete consultas comparadas.
+
 
 
 ## 11. Pruebas y resultados
