@@ -529,13 +529,18 @@ Asi mismo se incluyen riesgos generales del proyecto:
 - Rendimiento: posibles tiempos de respuesta elevados cuando aumente el volumen de información.
 - Integridad de los datos: riesgo de inconsistencias si no se validan correctamente los documentos y las operaciones.
 
-### 12.2 Limitaciones del proyecto
 
-- Alcance funcional: el proyecto se enfoca en el diseño e implementación de la base de datos, sin desarrollar una aplicación completa de comercio electrónico.
-- Interfaz de usuario: no se contempla el desarrollo de interfaces gráficas para clientes o administradores.
-- Procesamiento de pagos: no se incluyen pasarelas de pago ni transacciones financieras reales.
-Logística: no se implementan procesos de envio o distribución de productos.
+### 12.2 Limitaciones
+
+- El alcance se limita ya que no hay aplicación web, pasarela de pagos ni gestión logística.
 - Dependencia de MongoDB Atlas: el acceso a la base de datos requiere conectividad y disponibilidad del servicio en la nube.
+- Los datos son sintéticos ya que no se logra representar clientes, comercios o direcciones reales.
+- Los resultados dependen completamente en el  entorno de ejecución, el tamaño de los datos y la carga del servidor.
+- Algunas funciones de consulta usan el nombre fijo `MercadoTico360`.
+- El benchmark llega a modificar índices y necesita una base de pruebas dedicada.
+- La semilla `Faker.seed(123)` no controla necesariamente todos los usos de `random`.
+
+
 
 ## 13. Estructura del repositorio
 
