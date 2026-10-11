@@ -44,9 +44,17 @@ Diseñar e implementar un modelo de base de datos no relacional orientado a docu
 
 ## 4. Tecnologías utilizadas
 
-- MongoDB
-- MongoDB Atlas
-- Modelo de datos orientado a documentos
+| Tecnología | Uso |
+|---|---|
+| MongoDB / MongoDB Atlas | Base de datos documental y alojamiento en la nube |
+| Python | Generación de datos, carga, consultas y pruebas |
+| PyMongo (`pymongo`) | Conexión y operaciones con MongoDB |
+| `python-dotenv` | Lectura de variables de conexión desde `.env` |
+| Faker (`faker`) | Generación de información sintética |
+| Matplotlib y NumPy | Elaboración de gráficos de rendimiento |
+| `unittest` | Pruebas funcionales (biblioteca estándar de Python) |
+| JSON / BSON | Datos de entrada y representación de documentos |
+| Git y GitHub | Versionado y publicación del proyecto |
 
 
 ## 5. Modelo de datos
