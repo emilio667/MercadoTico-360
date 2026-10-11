@@ -120,6 +120,7 @@ Antes de ejecutar el proyecto es necesario contar con:
 - Espacio suficiente para los archivos JSON y las colecciones de prueba
 
 ## 7. Instalación y configuración
+
 ### 7.1 Clonar el repositorio
 
 Clonar el repositorio de MercadoTico 360 en el equipo:
@@ -138,41 +139,57 @@ cd MercadoTico-360
 
 ```
 
+### 7.2 Crear y activar un entorno virtual (recomendado)
 
+**Windows (PowerShell):**
 
-### 7.2 Instalar PyMongo
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+```
 
-Ejecutar:
+**Linux/macOS:**
 
 ```bash
-
-pip install pymongo
-
+python3 -m venv .venv
+source .venv/bin/activate
 ```
 
-### 7.3 Configurar MongoDB Atlas
-
-Para utilizar el proyecto es necesario contar con acceso al cluster correspondiente en MongoDB Atlas y configurar la conexion utilizando una URI valida.
-
-Por seguridad, las credenciales de acceso no deben publicarse directamente en el repositorio.
-
-### 7.4 Verificar PyMongo
-
-Se puede comprobar la instalación ejecutando:
+### 7.3 Instalar dependencias
 
 ```bash
-
-python database/integrante3/test_atlas.py
-
+python -m pip install pymongo python-dotenv faker matplotlib numpy
 ```
 
-El resultado esperado es:
+Estas son las dependencias externas observadas en los scripts del repositorio; `unittest`, `json`, `csv` y otras bibliotecas estándar ya vienen con Python.
 
-```text
+### 7.4 Configurar MongoDB Atlas
 
-PyMongo instalado correctamente
+1. Crear o seleccionar un clúster de MongoDB Atlas.
+2. Crear un usuario de base de datos con los permisos apropiados.
+3. Autorizar la IP desde la que se conectará el equipo, aplicando el acceso más restrictivo posible.
+4. Copiar la URI de conexión desde la opción **Connect** de Atlas.
+5. Crear un archivo `.env` en la **raíz del repositorio**, a partir de `.env.example`.
 
+**Windows:**
+
+```powershell
+Copy-Item .env.example .env
 ```
+
+**Linux/macOS:**
+
+```bash
+cp .env.example .env
+```
+
+Editar `.env` con valores propios:
+
+```dotenv
+MONGODB_URI=mongodb+srv://USUARIO:CONTRASENA@TU_CLUSTER.mongodb.net/?retryWrites=true&w=majority
+MONGODB_DB=MercadoTico360
+```
+
 
 ## 8. Carga de datos
 La carga de datos utilizara generadores independientes para las principales colecciones del proyecto:
