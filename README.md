@@ -280,19 +280,35 @@ En una base vacía que es cargada una sola vez con los JSON proporcionados, se e
 El proyecto no contiene una aplicación web que deba iniciarse: sus componentes se ejecutan como **scripts de Python** desde la raíz del repositorio, con el entorno virtual activo y el `.env` configurado.
 
 
-## 10. Comandos de demostración
+## 10. Consultas y Comandos de demostración
 
 ### 10.1 Consultas de productos
 
-Se implementará consultas para:
+[`database/queries/consultas_productos.py`](database/queries/consultas_productos.py). 
 
-- Buscar productos por categoría.
+Permite: 
+- Buscar productos por categoría
+- Buscar productos por rango de precio
+- Buscar productos utilizando atributos específicos
+- Combinar filtros de categoría y precio
 
-- Buscar productos por rango de precio.
+**Ejemplos reproducibles con `mongosh`:**
 
-- Buscar productos utilizando atributos específicos.
+```javascript
+use MercadoTico360
+// Productos de tecnología
+db.productos.find({categoria: "Tecnología"}).limit(5)
 
-- Combinar filtros de categoría y precio.
+// Rango de precio
+db.productos.find({precio: {$gte: 100000, $lte: 120000}}).limit(5)
+
+// Categoría, precio y talla
+db.productos.find({
+categoria: "Ropa",
+precio: {$gte: 50000, $lte: 250000},
+"atributos.talla": "M"
+}).limit(5)
+```
 
 ### 10.2 Consultas de pedidos
 
