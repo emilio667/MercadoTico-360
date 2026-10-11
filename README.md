@@ -338,14 +338,19 @@ Las funciones de creación, lectura, actualización y eliminación están en [`d
 
 Para demostrar actualizaciones, trabajar sobre una base de pruebas o documentos desechables: no modificar ni eliminar pedidos históricos de la base compartida.
 
+### 10.4 Agregaciones
 
-Se incorporaran consultas de agregación para obtener información útil para el negocio, como:
-
+Las consultas de agregación para obtener información útil para el negocio, como:
 - Ventas por categoría.
-
 - Ticket promedio.
-
 - Productos más vendidos.
+
+[`database/queries/agregaciones.py`](database/queries/agregaciones.py).
+
+ Incluye cálculos de ventas por categoría, ticket promedio y productos más vendidos. 
+ 
+ Las consultas analíticas del benchmark se definen también en [`Performance/scripts/benchmark.py`](Performance/scripts/benchmark.py).
+
 
 ### 10.4 Índices
 
