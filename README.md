@@ -286,7 +286,7 @@ El proyecto no contiene una aplicación web que deba iniciarse: sus componentes 
 
 [`database/queries/consultas_productos.py`](database/queries/consultas_productos.py). 
 
-Permite: 
+La cual permite: 
 - Buscar productos por categoría
 - Buscar productos por rango de precio
 - Buscar productos utilizando atributos específicos
@@ -312,15 +312,25 @@ precio: {$gte: 50000, $lte: 250000},
 
 ### 10.2 Consultas de pedidos
 
-Se implementará consultas para:
+[`database/queries/consultas_pedidos.py`](database/queries/consultas_pedidos.py).
 
-- Recuperar los pedidos de un cliente.
+La cual permite:
+- Recuperar los pedidos de un cliente
+- Consultar un pedido con sus líneas de detalle
+- Consultar el estado de un pedido
+- Actualizar el estado de un pedido
 
-- Consultar un pedido con sus líneas de detalle.
+```javascript
+// Historial de un cliente ordenado por fecha
+db.pedidos.find({cliente_id: "CLI-00001"}).sort({fecha: -1}).limit(5)
 
-- Consultar el estado de un pedido.
+// Pedidos que contienen un producto
+db.pedidos.find({"lineas_detalle.producto_id": "PROD-00001"}).limit(5)
 
-- Actualizar el estado de un pedido.
+// Inspeccionar las líneas históricas de un pedido
+db.pedidos.findOne({_id: "PED-00001"})
+```
+
 
 ### 10.3 Agregaciones
 
