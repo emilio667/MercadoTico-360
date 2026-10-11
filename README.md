@@ -377,9 +377,10 @@ Los archivos JSON de `Performance/resultados_corrida3/capturas/` conservan las s
 
 ## 11. Pruebas y resultados
 
-### 11.1 Plan de pruebas
+### 11.1 Plan y metodología
 
-Descripción de las pruebas que se realizarán para verificar el funcionamiento de la base de datos.
+El plan está en [`Performance/plan_de_pruebas.md`](Performance/plan_de_pruebas.md). Se contemplan pruebas funcionales, comparaciones de consultas con y sin índices, agregaciones, carga masiva y concurrencia. El benchmark registra medianas, percentil 95 (p95), documentos examinados y planes de ejecución. Los resultados mostrados a continuación proceden de los archivos en `Performance/resultados_corrida3/`.
+
 
 ### 11.2 Pruebas funcionales
 
