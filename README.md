@@ -192,6 +192,13 @@ MONGODB_DB=MercadoTico360
 
 
 ## 8. Carga de datos
+
+### 8.1 La semilla de datos
+
+Los generadores usan `Faker.seed(123)`.
+
+
+
 La carga de datos utilizara generadores independientes para las principales colecciones del proyecto:
 
 - Productos.
