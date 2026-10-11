@@ -223,6 +223,16 @@ database/seed/
 └── pedidos.json
 ```
 
+### 8.3 Datos sintéticos
+
+Desde la raíz del proyecto, los generadores se encuentran en `database/generadores/`:
+
+```bash
+python -m database.generadores.generar_comercios
+python -m database.generadores.generar_clientes
+python -m database.generadores.generar_productos
+python -m database.generadores.generar_pedidos
+```
 
 
 
