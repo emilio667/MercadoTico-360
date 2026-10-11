@@ -59,42 +59,31 @@ Diseñar e implementar un modelo de base de datos no relacional orientado a docu
 
 ## 5. Modelo de datos
 
-La base de datos esta compuesta por tres colecciones principales.
+La base de datos esta compuesta por cautro colecciones
+- Comercios
+- Productos
+- Clientes
+- Pedidos
 
 ### 5.1 Productos
 
-La colección `productos` almacena el catálogo de MercadoTico 360. Cada producto puede tener atributos diferentes segun su categoria mediante el campo `atributos`.
+Cada documento incluye identificador, nombre, categoría, precio, comercio, existencias y un subdocumento `atributos` que varía según la categoria.
 
 Ejemplo:
 
 ```json
-
 {
-
-  "_id": "PROD-001",
-
-  "nombre": "Camiseta Tipica",
-
-  "precio": 18000,
-
-  "categoria": "Ropa",
-
-  "comercio_id": "COM-102",
-
-  "stock": 45,
-
-  "atributos": {
-
-    "talla": "M",
-
-    "color": "Azul",
-
-    "material": "Algodon"
-
-  }
-
+"_id": "PROD-00001",
+"nombre": "Ejemplo de servicio",
+"precio": 154176.85,
+"categoria": "Servicios",
+"comercio_id": "COM-033",
+"stock": 500,
+"atributos": {
+"requiere_cita": true,
+"modalidad": "Presencial"
 }
-
+}
 ```
 
 ### 5.2 Clientes
