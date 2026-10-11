@@ -59,7 +59,11 @@ Diseñar e implementar un modelo de base de datos no relacional orientado a docu
 
 ## 5. Modelo de datos
 
-La base de datos esta compuesta por tres colecciones principales.
+La base de datos esta compuesta por cautro colecciones
+- Comercios
+- Productos
+- Clientes
+- Pedidos
 
 ### 5.1 Productos
 
