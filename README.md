@@ -541,51 +541,38 @@ Asi mismo se incluyen riesgos generales del proyecto:
 - La semilla `Faker.seed(123)` no controla necesariamente todos los usos de `random`.
 
 
-
 ## 13. Estructura del repositorio
 
 ```text
-
 MercadoTico-360/
-
-├── data/
-
-│   └── README.md
-
-│
-
-├── database/
-
-│   ├── Index/
-
-│   ├── integrante3/
-
-│   ├── queires/
-
-│   └── schemas/
-
-│
-
-├── docs/
-
-├── Performance/
-
-├── test/
-
-├── Entregables/
-
-├── Paper técnico/
-
-│
-
+├── .env.example
+├── .gitignore
+├── README.md
 ├── DATA_ARCHITECTURE.md
-
 ├── LICENSE
-
-└── README.md
-
+├── database/
+│ ├── generadores/ # Generación de JSON sintéticos
+│ ├── modelos/ # Ejemplos de conexión a MongoDB
+│ ├── queries/ # CRUD, consultas y agregaciones
+│ ├── schemas/ # Funciones de construcción de documentos
+│ ├── seed/ # JSON incluidos y scripts de carga
+│ └── Index/ # Documentación de índices
+├── Performance/
+│ ├── plan_de_pruebas.md
+│ ├── Riesgos
+│ ├── scripts/
+│ │ ├── benchmark.py
+│ │ └── graficos.py
+│ ├── resultados/
+│ ├── resultados_corrida2/
+│ └── resultados_corrida3/
+├── test/
+│ └── test_funcionales.py
+├── docs/
+│ ├── modelo-datos.md
+│ └── decisiones-diseno.md
+└── Entregables/ # Documentos de entregas y paper
 ```
-
 ### Descripción de las carpetas principales
 
 - `data/`: generación y carga de los datos utilizados por el proyecto.
