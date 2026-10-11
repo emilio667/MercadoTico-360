@@ -234,6 +234,27 @@ python -m database.generadores.generar_productos
 python -m database.generadores.generar_pedidos
 ```
 
+### 8.4 Cargar los datos incluidos
+
+**Advertencia:** la inserción no limpia automáticamente colecciones existentes. Para evitar errores por `_id` duplicados o mezclar corridas, se debe utilizar una base de datos nueva y vacía. No ejecutar esta operación sobre una base de producción.
+
+El script orquestador ejecuta las cargas en el orden comercios, clientes, productos y pedidos:
+
+```bash
+python database/seed/seed_data.py
+```
+
+Alternativamente, ejecutar cada archivo por separado:
+
+```bash
+python database/seed/seed_comercios.py
+python database/seed/seed_clientes.py
+python database/seed/seed_productos.py
+python database/seed/seed_pedidos.py
+```
+
+Los scripts leen `MONGODB_URI` y `MONGODB_DB` del `.env`, abren los JSON de `database/seed/` e insertan los documentos mediante PyMongo. En pedidos, convierten el campo `fecha` a un valor `datetime` antes de insertarlo.
+
 
 
 
