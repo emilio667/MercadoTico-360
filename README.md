@@ -332,7 +332,12 @@ db.pedidos.findOne({_id: "PED-00001"})
 ```
 
 
-### 10.3 Agregaciones
+### 10.3 Operaciones CRUD
+
+Las funciones de creación, lectura, actualización y eliminación están en [`database/queries/crud.py`](database/queries/crud.py). 
+
+Para demostrar actualizaciones, trabajar sobre una base de pruebas o documentos desechables: no modificar ni eliminar pedidos históricos de la base compartida.
+
 
 Se incorporaran consultas de agregación para obtener información útil para el negocio, como:
 
