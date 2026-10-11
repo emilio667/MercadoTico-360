@@ -397,9 +397,34 @@ python test/test_funcionales.py
 El script está diseñado para escribir `Performance/resultados/pruebas_funcionales.csv`. 
 
 
-### 11.3 Pruebas de rendimiento
+### 11.3 Benchmark de rendimiento
 
 Evaluación de los tiempos de respuesta de las consultas y comparación del rendimiento con y sin índices.
+
+**Precaución:** `benchmark.py` elimina y recrea los índices de la lista `INDICES` durante las mediciones. 
+
+Se debe ejecutar únicamente en una base de pruebas dedicada y con autorización del equipo.
+
+```bash
+python Performance/scripts/benchmark.py --reps 30 --agg-reps 5
+```
+
+Opciones del propio script:
+
+```bash
+python Performance/scripts/benchmark.py --skip-concurrency --skip-load
+python Performance/scripts/benchmark.py --keep-indexes
+```
+
+La ejecución predeterminada se escribe en `Performance/resultados/`.
+
+ Para consultar todas las opciones disponibles:
+ 
+```bash
+python Performance/scripts/benchmark.py --help
+```
+
+
 
 ### 11.4 Resultados obtenidos
 
