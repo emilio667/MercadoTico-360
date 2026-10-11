@@ -192,35 +192,39 @@ MONGODB_DB=MercadoTico360
 
 
 ## 8. Carga de datos
+La carga de datos utilizara generadores independientes para las principales colecciones del proyecto:
+
+- Productos
+- Clientes
+- Pedido
+- Comercios
 
 ### 8.1 La semilla de datos
 
 Los generadores usan `Faker.seed(123)`.
 
+### 8.2 Datos incluidos
 
+| Colección | Documentos en los JSON de `database/seed/` |
+|---|---:|
+| `comercios` | 500 |
+| `clientes` | 10.000 |
+| `productos` | 25.000 |
+| `pedidos` | 50.000 |
+| **Total** | **85.500** |
 
-La carga de datos utilizara generadores independientes para las principales colecciones del proyecto:
-
-- Productos.
-
-- Clientes.
-
-- Pedidos.
-
-La estructura prevista dentro de `data/` es:
+Los archivos de datos incluidos en el repositorio son:
 
 ```text
-
-data/
-
-├── generate_products.js
-
-├── generate_customers.js
-
-└── generate_orders.js
-
+database/seed/
+├── comercios.json
+├── clientes.json
+├── productos.json
+└── pedidos.json
 ```
-[PENDIENTE: incorporar los generadores y documentar los comandos definitivos para realizar la carga de datos]
+
+
+
 
 
 ## 9. Ejecución
