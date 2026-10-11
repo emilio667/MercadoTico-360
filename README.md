@@ -419,16 +419,36 @@ python Performance/scripts/benchmark.py --keep-indexes
 La ejecución predeterminada se escribe en `Performance/resultados/`.
 
  Para consultar todas las opciones disponibles:
- 
+
 ```bash
 python Performance/scripts/benchmark.py --help
 ```
 
+### 11.4 Comparación de consultas con y sin índices
+
+Los resultados reales de las pruebas, incluyendo evidencias y observaciones.
+
+Resultados de la tercera corrida con tiempos de mediana en milisegundos:
+
+| Consulta | Sin índice (ms) | Con índice (ms) | Mejora de mediana | Docs examinados sin/con |
+|---|---:|---:|---:|---:|
+| `Q1_categoria` | 47.59 | 29.84 | 37.3 % | 25000 / 3052 |
+| `Q2_rango_precio` | 65.43 | 13.26 | 79.7 % | 25000 / 1029 |
+| `Q3_categoria_precio` | 41.36 | 5.89 | 85.8 % | 25000 / 286 |
+| `Q4_categoria_precio_talla` | 62.16 | 8.36 | 86.5 % | 25000 / 1180 |
+| `Q5_comercio` | 50.70 | 1.53 | 97.0 % | 25000 / 54 |
+| `Q6_pedidos_cliente` | 146.73 | 1.11 | 99.2 % | 50000 / 6 |
+| `Q7_pedidos_producto` | 231.37 | 2.07 | 99.1 % | 50000 / 16 |
+
+En estas siete consultas, el plan registrado pasa de `COLLSCAN` (exploración de colección) a `IXSCAN` (uso de índice), con una reducción de la mediana.
+
+ Esto demuestra mejoras en el entorno y conjunto de datos medidos, no garantiza idénticos porcentajes en otros servidores.
+
+![Comparación de tiempos con y sin índices](Performance/resultados_corrida3/graficos/fig1_consultas_indices.png)
+
+![Documentos examinados](Performance/resultados_corrida3/graficos/fig2_docs_examinados.png)
 
 
-### 11.4 Resultados obtenidos
-
-Presentación de los resultados reales de las pruebas, incluyendo evidencias y observaciones
 
 ## 12. Riesgos y limitaciones
 
