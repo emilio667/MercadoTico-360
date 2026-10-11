@@ -8,6 +8,7 @@ import os
 from database.schemas.modelos_de_estructuras import crear_estructura_producto
 
 Faker.seed(123)
+random.seed(123)
 fake = Faker("es_ES")
 
 categorias = [

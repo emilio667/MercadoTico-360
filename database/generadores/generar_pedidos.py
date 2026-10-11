@@ -3,6 +3,7 @@
 import os
 import random
 import json
+from datetime import datetime
 
 from faker import Faker
 from dotenv import load_dotenv
@@ -11,6 +12,7 @@ from pymongo import MongoClient
 from database.schemas.modelos_de_estructuras import crear_estructura_pedido
 
 Faker.seed(123)
+random.seed(123)
 fake = Faker("es_ES")
 
 #Carga las variables del archivo .env
@@ -100,7 +102,10 @@ for i in range(50000):
 
     pedido = crear_estructura_pedido(
         id_pedido=f"PED-{i+1:05d}",
-        fecha_pedido=fake.date_time_this_year(),
+        fecha_pedido=fake.date_time_between(
+            start_date=datetime(2026, 1, 1),
+            end_date=datetime(2026, 10, 1),
+        ),
         cliente_id=cliente["_id"],
         estado_pedido=random.choice([
             "Pendiente",
