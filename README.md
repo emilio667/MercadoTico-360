@@ -7,18 +7,15 @@
 3. [Objetivos](#3-objetivos)
 4. [Tecnologías utilizadas](#4-tecnologías-utilizadas)
 5. [Modelo de datos](#5-modelo-de-datos)
-- [5.1 Productos](#51-productos)
-- [5.2 Clientes](#52-clientes)
-- [5.3 Pedidos](#53-pedidos)
 6. [Prerrequisitos](#6-prerrequisitos)
 7. [Instalación y configuración](#7-instalación-y-configuración)
-8. [Carga de datos](#8-carga-de-datos)
+8. [Generación y carga de datos (seed)](#8-generación-y-carga-de-datos-seed)
 9. [Ejecución](#9-ejecución)
-10. [Comandos de demostración](#10-comandos-de-demostración)
-11. [Resultados](#11-resultados)
-12. [Estructura del repositorio](#12-estructura-del-repositorio)
-13. [Autores](#13-autores)
-
+10. [Consultas y comandos de demostración](#10-consultas-y-comandos-de-demostración)
+11. [Pruebas y resultados](#11-pruebas-y-resultados)
+12. [Riesgos y limitaciones](#12-riesgos-y-limitaciones)
+13. [Estructura del repositorio](#13-estructura-del-repositorio)
+14. [Autores](#14-autores)
 
 ## 1. Descripción del proyecto
 
