@@ -449,6 +449,18 @@ En estas siete consultas, el plan registrado pasa de `COLLSCAN` (exploración de
 ![Documentos examinados](Performance/resultados_corrida3/graficos/fig2_docs_examinados.png)
 
 
+### 11.5 Pruebas de concurrencia
+
+| Hilos | Solicitudes | Solicitudes/s | Latencia media (ms) | p95 (ms) |
+|---:|---:|---:|---:|---:|
+| 10 | 200 | 353.8 | 24.273 | 47.595 |
+| 50 | 1000 | 339.0 | 90.902 | 199.35 |
+| 100 | 2000 | 304.8 | 143.815 | 347.905 |
+
+Las pruebas muestran que la latencia aumenta con el número de hilos  en la corrida.
+
+![Resultados de concurrencia](Performance/resultados_corrida3/graficos/fig3_concurrencia.png)
+
 
 ## 12. Riesgos y limitaciones
 
