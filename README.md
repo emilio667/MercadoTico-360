@@ -141,7 +141,7 @@ cd MercadoTico-360
 
 ### 7.2 Crear y activar un entorno virtual (recomendado)
 
-**Windows (PowerShell):**
+**Windows:**
 
 ```powershell
 python -m venv .venv
@@ -267,7 +267,7 @@ db.productos.countDocuments({})
 db.pedidos.countDocuments({})
 ```
 
-En una base vacía que es cargada una sola vez con los JSON proporcionados, se espera respectivamente tener **500, 10.000, 25.000 y 50.000 documentos**
+En una base vacía que es cargada una sola vez con los JSON proporcionados, se espera respectivamente tener *500, 10.000, 25.000 y 50.000 documentos*
 
 
 ## 9. Ejecución
@@ -277,7 +277,7 @@ En una base vacía que es cargada una sola vez con los JSON proporcionados, se e
 - Ejecutar benchmark: `python Performance/scripts/benchmark.py`
 - Generar gráficos: `python Performance/scripts/graficos.py`
 
-El proyecto no contiene una aplicación web que deba iniciarse: sus componentes se ejecutan como **scripts de Python** desde la raíz del repositorio, con el entorno virtual activo y el `.env` configurado.
+La ejecucion utiliza scripts de Python desde la raíz del repositorio, con el entorno virtual activo y el `.env` configurado.
 
 
 ## 10. Consultas y Comandos de demostración
@@ -444,9 +444,7 @@ En estas siete consultas, el plan registrado pasa de `COLLSCAN` (exploración de
 
  Esto demuestra mejoras en el entorno y conjunto de datos medidos, no garantiza idénticos porcentajes en otros servidores.
 
-![Comparación de tiempos con y sin índices](Performance/resultados_corrida3/graficos/fig1_consultas_indices.png)
 
-![Documentos examinados](Performance/resultados_corrida3/graficos/fig2_docs_examinados.png)
 
 
 ### 11.5 Pruebas de concurrencia
@@ -459,7 +457,7 @@ En estas siete consultas, el plan registrado pasa de `COLLSCAN` (exploración de
 
 Las pruebas muestran que la latencia aumenta con el número de hilos.
 
-![Resultados de concurrencia](Performance/resultados_corrida3/graficos/fig3_concurrencia.png)
+
 
 
 ### 11.6 Agregaciones
@@ -472,7 +470,7 @@ Las pruebas muestran que la latencia aumenta con el número de hilos.
 
 La agregación de ventas por categoría fue la más costosa de las tres.
 
-![Resultados de agregaciones](Performance/resultados_corrida3/graficos/fig4_agregaciones.png)
+
 
 ### 11.7 Carga masiva
 
