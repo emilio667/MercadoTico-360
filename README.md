@@ -272,32 +272,12 @@ En una base vacía que es cargada una sola vez con los JSON proporcionados, se e
 
 ## 9. Ejecución
 
-Actualmente el repositorio contiene scripts en Python para comprobar PyMongo, conectarse con MongoDB Atlas y realizar una insercion basica en la coleccion de clientes.
+- Cargar Seed: `python database/seed/seed_data.py`
+- Ejecutar pruebas funcionales: `python test/test_funcionales.py`
+- Ejecutar benchmark: `python Performance/scripts/benchmark.py`
+- Generar gráficos: `python Performance/scripts/graficos.py`
 
-Para verificar PyMongo:
-
-```bash
-
-python database/integrante3/test_atlas.py
-
-```
-
-Para probar la conexion con MongoDB Atlas:
-
-```bash
-
-python database/integrante3/conexion.py
-
-```
-
-Para ejecutar la prueba de creación e inserción de un documento:
-
-```bash
-
-python database/integrante3/crear_db.py
-
-```
-[PENDIENTE: actualizar comandos de ejecución, falta info]
+El proyecto no contiene una aplicación web que deba iniciarse: sus componentes se ejecutan como **scripts de Python** desde la raíz del repositorio, con el entorno virtual activo y el `.env` configurado.
 
 
 ## 10. Comandos de demostración
