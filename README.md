@@ -474,6 +474,16 @@ La agregación de ventas por categoría fue la más costosa de las tres.
 
 ![Resultados de agregaciones](Performance/resultados_corrida3/graficos/fig4_agregaciones.png)
 
+### 11.7 Carga masiva
+
+| Colección | Documentos | Tiempo de inserción (s) | Documentos/s |
+|---|---:|---:|---:|
+| `comercios` | 500 | 0.027 | 18585.8 |
+| `clientes` | 10000 | 0.181 | 55142.4 |
+| `productos` | 25000 | 0.518 | 48253.0 |
+| `pedidos` | 50000 | 2.467 | 20270.8 |
+
+
 
 ## 12. Riesgos y limitaciones
 
