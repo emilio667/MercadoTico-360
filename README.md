@@ -110,16 +110,14 @@ Tenemos `comercio_id` que identifica el comercio correspondiente.
 
 Antes de ejecutar el proyecto es necesario contar con:
 
-- Python instalado.
-
-- Una cuenta de MongoDB Atlas.
-
-- Acceso al cluster de MongoDB Atlas utilizado por el proyecto.
-
-- PyMongo instalado.
-
-- Conexion a Internet para acceder al cluster alojado en MongoDB Atlas.
-
+- Git, para clonar el repositorio
+- Python 
+- Una cuenta de MongoDB Atlas
+- Acceso al cluster de MongoDB Atlas utilizado por el proyecto y conexion a Internet para tener acceso
+- Credenciales válidas y permisos de lectura/escritura en la base de datos de trabajo
+- PyMongo instalado
+- Acceso de red al servidor; en Atlas, configurar el usuario de base de datos y la lista de direcciones IP permitidas
+- Espacio suficiente para los archivos JSON y las colecciones de prueba
 
 ## 7. Instalación y configuración
 ### 7.1 Clonar el repositorio
