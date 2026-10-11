@@ -19,7 +19,7 @@
 
 ## 1. Descripción del proyecto
 
-MercadoTico 360 es un proyecto de base de datos NoSQL orientado a documentos para una plataforma de comercio electrónico.
+MercadoTico 360 es una propuesta de almacenamiento NoSQL para un marketplace el cual llegar a abarcar alimentos, ropa, tecnología, artesanías, servicios y otros. Se utilizo MongoDB y documentos BSON para almacenar atributos de los producto, tambien la informacion historica de pedidos. Se trabajo con scripts de python para generar datos de prueba, insertarlos, consultarlos y medir su comportamiento.
 
 ## 2. Problema de negocio
 
@@ -44,9 +44,17 @@ Diseñar e implementar un modelo de base de datos no relacional orientado a docu
 
 ## 4. Tecnologías utilizadas
 
-- MongoDB
-- MongoDB Atlas
-- Modelo de datos orientado a documentos
+| Tecnología | Uso |
+|---|---|
+| MongoDB / MongoDB Atlas | Base de datos documental y alojamiento en la nube |
+| Python | Generación de datos, carga, consultas y pruebas |
+| PyMongo (`pymongo`) | Conexión y operaciones con MongoDB |
+| `python-dotenv` | Lectura de variables de conexión desde `.env` |
+| Faker (`faker`) | Generación de información sintética |
+| Matplotlib y NumPy | Elaboración de gráficos de rendimiento |
+| `unittest` | Pruebas funcionales (biblioteca estándar de Python) |
+| JSON / BSON | Datos de entrada y representación de documentos |
+| Git y GitHub | Versionado y publicación del proyecto |
 
 
 ## 5. Modelo de datos
