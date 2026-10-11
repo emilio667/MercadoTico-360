@@ -90,7 +90,9 @@ Ejemplo:
 
 La colección `clientes` almacena la información de los usuarios de la plataforma, incluyendo sus datos de contacto y ubicación.
 
-La dirección puede almacenarse como una estructura embebida con información como provincia, cantón y distrito.
+ALmacena los datos como identificación, nombre, correo, teléfono, cédula y dirección (`provincia`, `canton`, `distrito` y `direccion_exacta`). 
+
+Los datos son sintéticos: las localidades producidas por Faker no necesariamente representan combinaciones geográficas reales de Costa Rica
 
 ### 5.3 Pedidos
 
