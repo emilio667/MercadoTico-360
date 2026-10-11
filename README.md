@@ -484,6 +484,31 @@ La agregación de ventas por categoría fue la más costosa de las tres.
 | `pedidos` | 50000 | 2.467 | 20270.8 |
 
 
+### 11.8 Evidencias y generación de gráficos
+
+Los datos completos de la tercera corrida están en [`Performance/resultados_corrida3/`](Performance/resultados_corrida3/), incluyendo:
+
+- `comparativa_indices.csv`: resumen de tiempos y planes de consulta.
+- `consultas_detalle.csv` y `tiempos_crudos.csv`: mediciones detalladas.
+- `concurrencia.csv`, `agregaciones.csv` y `carga_masiva.csv`.
+- `construccion_indices.csv` y `entorno.json`.
+- `capturas/`: planes de ejecución en JSON.
+- `graficos/`: imágenes utilizadas.
+
+Para generar gráficos desde la carpeta predeterminada `Performance/resultados/`:
+
+```bash
+python Performance/scripts/graficos.py
+```
+
+Para graficar específicamente la tercera corrida (usando las opciones del script):
+
+```bash
+python Performance/scripts/graficos.py --entrada Performance/resultados_corrida3 --salida Performance/resultados_corrida3/graficos
+```
+
+Los resultados de corridas anteriores permanecen en `Performance/resultados/` y `Performance/resultados_corrida2/` para comparación y trazabilidad.
+
 
 ## 12. Riesgos y limitaciones
 
