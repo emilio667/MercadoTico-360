@@ -384,7 +384,18 @@ El plan está en [`Performance/plan_de_pruebas.md`](Performance/plan_de_pruebas.
 
 ### 11.2 Pruebas funcionales
 
-Validación de inserciones, consultas, actualizaciones y operaciones sobre las colecciones.
+Incluyen validación de inserciones, consultas, actualizaciones y operaciones sobre las colecciones.
+
+El script [`test/test_funcionales.py`](test/test_funcionales.py) documenta los casos F01–F10 y las verificaciones V1–V5. 
+
+Las pruebas F usan una base separada con sufijo `_test` y eliminan sus datos de prueba al finalizar. Las comprobaciones V revisan la base cargada, con la salvedad de que V5 intenta insertar y retirar un documento inválido.
+
+```bash
+python test/test_funcionales.py
+```
+
+El script está diseñado para escribir `Performance/resultados/pruebas_funcionales.csv`. 
+
 
 ### 11.3 Pruebas de rendimiento
 
