@@ -255,7 +255,19 @@ python database/seed/seed_pedidos.py
 
 Los scripts leen `MONGODB_URI` y `MONGODB_DB` del `.env`, abren los JSON de `database/seed/` e insertan los documentos mediante PyMongo. En pedidos, convierten el campo `fecha` a un valor `datetime` antes de insertarlo.
 
+### 8.5 Verificar la carga
 
+Usando MongoDB Compass o `mongosh`, conectado a la misma base:
+
+```javascript
+use MercadoTico360
+db.comercios.countDocuments({})
+db.clientes.countDocuments({})
+db.productos.countDocuments({})
+db.pedidos.countDocuments({})
+```
+
+En una base vacía que es cargada una sola vez con los JSON proporcionados, se espera respectivamente tener **500, 10.000, 25.000 y 50.000 documentos**
 
 
 ## 9. Ejecución
