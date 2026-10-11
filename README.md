@@ -59,7 +59,7 @@ Diseñar e implementar un modelo de base de datos no relacional orientado a docu
 
 ## 5. Modelo de datos
 
-La base de datos esta compuesta por cautro colecciones
+La base de datos esta compuesta por cuatro colecciones
 - Comercios
 - Productos
 - Clientes
@@ -90,7 +90,7 @@ Ejemplo:
 
 La colección `clientes` almacena la información de los usuarios de la plataforma, incluyendo sus datos de contacto y ubicación.
 
-ALmacena los datos como identificación, nombre, correo, teléfono, cédula y dirección (`provincia`, `canton`, `distrito` y `direccion_exacta`). 
+Almacena los datos como identificación, nombre, correo, teléfono, cédula y dirección (`provincia`, `canton`, `distrito` y `direccion_exacta`). 
 
 Los datos son sintéticos: las localidades producidas por Faker no necesariamente representan combinaciones geográficas reales de Costa Rica
 
