@@ -678,9 +678,26 @@ El proyecto define validaciones en Python para construir y verificar la estructu
 
 Como limitación, MongoDB continúa siendo una base de datos de esquema flexible y las referencias mediante identificadores no equivalen a restricciones de llave foránea de una base relacional.
 
+Las validaciones implementadas en Python permiten comprobar la estructura y los valores de los documentos antes de su inserción mediante las funciones del proyecto.
+
+Sin embargo, estas comprobaciones no equivalen a una validación obligatoria aplicada directamente por MongoDB. En la ejecución documentada, la colección productos no contaba con un validador $jsonSchema, por lo que una inserción realizada fuera de las funciones de Python podría omitir algunas de estas restricciones.
+
+Asi mismo, las relaciones entre colecciones se gestionan mediante identificadores y no cuentan con restricciones de llave foránea como las utilizadas en bases de datos relacionales. Por ello, la consistencia de estas referencias depende de las operaciones y validaciones implementadas en la aplicación
+
 ---
 
 ## 14. Pruebas y resultados
+
+### Entorno de ejecución
+La corrida final de rendimiento se realizó en un equipo con Windows 11, procesador Intel de 12 núcleos lógicos, 15,7 GB de memoria RAM y almacenamiento SSD NVMe. Se utilizaron Python 3.15.0, PyMongo 4.18.3 y MongoDB 7.0.28.
+
+El conjunto de datos estuvo compuesto por 85.500 documentos distribuidos en cuatro colecciones: 500 comercios, 10.000 clientes, 25.000 productos y 50.000 pedidos.
+
+Para las mediciones se configuraron 30 repeticiones por consulta y cinco repeticiones por agregación. La información detallada del entorno se encuentra disponible en Performance/resultados_final/entorno.json.
+
+Estas características corresponden a la ejecución registrada y permiten contextualizar los resultados obtenidos, aunque no garantizan tiempos idénticos en otros equipos o configuraciones.
+
+
 
 ### 14.1 Pruebas funcionales
 
