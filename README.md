@@ -1,6 +1,6 @@
 # MercadoTico 360
 
-MercadoTico 360 es una solución NoSQL orientada a documentos para un marketplace ficticio de comercios costarricenses. La propuesta utiliza MongoDB para manejar un catálogo de productos con atributos variables por categoría, pedidos con líneas de detalle anidadas e información histórica suficiente para reconstruir cada compra.
+MercadoTico 360 es una solución NoSQL orientada a documentos para un marketplace ficticio de comercios costarricenses. La propuesta utiliza MongoDB para manejar un catálogo de productos con atributos variables por categoría, pedidos con líneas de detalle anidadas e información histórica suficiente para reconstruir cada compra. Las pruebas de rendimiento se midieron en una instancia local de MongoDB 7.0.28; MongoDB Atlas se usó como entorno compartido de desarrollo.
 
 El proyecto fue desarrollado para el curso **XS-0131 Gestión de Bases de Datos y Análisis de Información**.
 
