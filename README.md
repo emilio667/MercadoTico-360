@@ -279,7 +279,9 @@ source .venv/bin/activate
 python -m pip install -r requirements.txt
 ```
 
-Las dependencias externas necesarias para ejecutar el proyecto están declaradas en `requirements.txt`.
+Las dependencias externas se encuentran declaradas en el archivo `requirements.txt`, que incluye PyMongo, python-dotenv, Faker, Matplotlib y NumPy. 
+
+Actualmente, este archivo no establece versiones específicas, por lo que se recomienda utilizar un entorno virtual para evitar conflictos con otras instalaciones y registrar las versiones empleadas al reproducir las pruebas.
 
 ### 8.4 Configurar variables de entorno
 
