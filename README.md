@@ -205,7 +205,7 @@ La línea del pedido conserva `producto_id`, `nombre_producto`, `precio_unitario
 
 ---
 
-## 6. Decisiones de diseño
+Almacena los datos como identificación, nombre, correo, teléfono, cédula y dirección (`provincia`, `canton`, `distrito` y `direccion_exacta`). 
 
 ### 6.1 Información embebida
 
