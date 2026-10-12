@@ -205,7 +205,7 @@ La línea del pedido conserva `producto_id`, `nombre_producto`, `precio_unitario
 
 ---
 
-## 6. Decisiones de diseño
+Almacena los datos como identificación, nombre, correo, teléfono, cédula y dirección (`provincia`, `canton`, `distrito` y `direccion_exacta`). 
 
 ### 6.1 Información embebida
 
@@ -246,6 +246,7 @@ Antes de ejecutar el proyecto se requiere:
 - Espacio suficiente para los archivos JSON y los datos de prueba.
 
 ---
+Para reproducir las pruebas de rendimiento, se recomienda utilizar un entorno aislado y mantener las versiones de las herramientas lo más cercanas posible a las empleadas en las mediciones originales. Las características específicas del entorno evaluado se encuentran documentadas en `Performance/resultados_final/entorno.json`
 
 ## 8. Instalación y configuración
 
@@ -278,7 +279,9 @@ source .venv/bin/activate
 python -m pip install -r requirements.txt
 ```
 
-Las dependencias externas necesarias para ejecutar el proyecto están declaradas en `requirements.txt`.
+Las dependencias externas se encuentran declaradas en el archivo `requirements.txt`, que incluye PyMongo, python-dotenv, Faker, Matplotlib y NumPy. 
+
+Actualmente, este archivo no establece versiones específicas, por lo que se recomienda utilizar un entorno virtual para evitar conflictos con otras instalaciones y registrar las versiones empleadas al reproducir las pruebas.
 
 ### 8.4 Configurar variables de entorno
 
@@ -675,9 +678,26 @@ El proyecto define validaciones en Python para construir y verificar la estructu
 
 Como limitación, MongoDB continúa siendo una base de datos de esquema flexible y las referencias mediante identificadores no equivalen a restricciones de llave foránea de una base relacional.
 
+Las validaciones implementadas en Python permiten comprobar la estructura y los valores de los documentos antes de su inserción mediante las funciones del proyecto.
+
+Sin embargo, estas comprobaciones no equivalen a una validación obligatoria aplicada directamente por MongoDB. En la ejecución documentada, la colección productos no contaba con un validador $jsonSchema, por lo que una inserción realizada fuera de las funciones de Python podría omitir algunas de estas restricciones.
+
+Asi mismo, las relaciones entre colecciones se gestionan mediante identificadores y no cuentan con restricciones de llave foránea como las utilizadas en bases de datos relacionales. Por ello, la consistencia de estas referencias depende de las operaciones y validaciones implementadas en la aplicación
+
 ---
 
 ## 14. Pruebas y resultados
+
+### Entorno de ejecución
+La corrida final de rendimiento se realizó en un equipo con Windows 11, procesador Intel de 12 núcleos lógicos, 15,7 GB de memoria RAM y almacenamiento SSD NVMe. Se utilizaron Python 3.15.0, PyMongo 4.18.3 y MongoDB 7.0.28.
+
+El conjunto de datos estuvo compuesto por 85.500 documentos distribuidos en cuatro colecciones: 500 comercios, 10.000 clientes, 25.000 productos y 50.000 pedidos.
+
+Para las mediciones se configuraron 30 repeticiones por consulta y cinco repeticiones por agregación. La información detallada del entorno se encuentra disponible en Performance/resultados_final/entorno.json.
+
+Estas características corresponden a la ejecución registrada y permiten contextualizar los resultados obtenidos, aunque no garantizan tiempos idénticos en otros equipos o configuraciones.
+
+
 
 ### 14.1 Pruebas funcionales
 
@@ -694,6 +714,12 @@ Ejecutar:
 ```bash
 python test/test_funcionales.py
 ```
+Los resultados registrados en Performance/resultados/pruebas_funcionales.csv incluyen 15 casos de prueba: 14 con resultado satisfactorio (OK) y uno omitido (OMITIDA).
+
+Las pruebas satisfactorias abarcan la verificación del volumen mínimo de documentos, la diversidad de categorías, los atributos variables, la conservación del historial de pedidos, las operaciones de consulta, las agregaciones y la evolución del esquema.
+
+La prueba V5, correspondiente a la validación de documentos directamente en MongoDB mediante $jsonSchema, fue omitida debido a que la colección productos no tenía configurado este mecanismo al momento de ejecutar las pruebas. Por tanto, los resultados confirman el funcionamiento de las validaciones implementadas en Python, pero no permiten afirmar que la validación del esquema se encuentre completamente aplicada a nivel de la base de datos.
+
 
 ### 14.2 Benchmark de rendimiento
 
