@@ -697,6 +697,12 @@ Ejecutar:
 ```bash
 python test/test_funcionales.py
 ```
+Los resultados registrados en Performance/resultados/pruebas_funcionales.csv incluyen 15 casos de prueba: 14 con resultado satisfactorio (OK) y uno omitido (OMITIDA).
+
+Las pruebas satisfactorias abarcan la verificación del volumen mínimo de documentos, la diversidad de categorías, los atributos variables, la conservación del historial de pedidos, las operaciones de consulta, las agregaciones y la evolución del esquema.
+
+La prueba V5, correspondiente a la validación de documentos directamente en MongoDB mediante $jsonSchema, fue omitida debido a que la colección productos no tenía configurado este mecanismo al momento de ejecutar las pruebas. Por tanto, los resultados confirman el funcionamiento de las validaciones implementadas en Python, pero no permiten afirmar que la validación del esquema se encuentre completamente aplicada a nivel de la base de datos.
+
 
 ### 14.2 Benchmark de rendimiento
 
