@@ -27,7 +27,7 @@ python test/test_funcionales.py       # 14 OK y 1 omitida (V5)
 python Performance/scripts/demo.py --auto
 ```
 
-Las pruebas de rendimiento y su reproducción están en `Performance/README.md`.
+Las pruebas de rendimiento y su reproducción están en [`Performance/README.md`].
 
 ---
 
