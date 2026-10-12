@@ -264,11 +264,13 @@ Antes de ejecutar el proyecto se requiere:
 
 - Git.
 - Python 3.
-- Una cuenta o instancia accesible de MongoDB.
-- Credenciales válidas con permisos de lectura y escritura.
-- Conexión a Internet si se utiliza MongoDB Atlas.
-- Acceso de red autorizado al clúster.
-- Espacio suficiente para los archivos JSON y los datos de prueba.
+- MongoDB 7.0, de una de estas dos formas:
+  - **Local (recomendada para reproducir el proyecto, sin credenciales):** MongoDB Community Server 7.0 instalado como servicio, o con Docker:
+    `docker run -d --name mongo-mt360 -p 27017:27017 mongo:7.0`
+  - **MongoDB Atlas (opcional):** un clúster accesible con credenciales de lectura y escritura, y acceso de red autorizado.
+- Conexión a Internet solo si se usa MongoDB Atlas.
+- Espacio suficiente para los archivos JSON (unos 63 MB) y la base de datos.
+
 
 ---
 Para reproducir las pruebas de rendimiento, se recomienda utilizar un entorno aislado y mantener las versiones de las herramientas lo más cercanas posible a las empleadas en las mediciones originales. Las características específicas del entorno evaluado se encuentran documentadas en `Performance/resultados_final/entorno.json`
@@ -327,11 +329,15 @@ cp .env.example .env
 Contenido esperado:
 
 ```dotenv
-MONGODB_URI=mongodb+srv://USUARIO:CONTRASENA@TU_CLUSTER.mongodb.net/?retryWrites=true&w=majority
+MONGODB_URI=mongodb://localhost:27017
 MONGODB_DB=MercadoTico360
 ```
+Para usar MongoDB Atlas, reemplazar `MONGODB_URI` por la cadena de conexión del clúster
+(con `USUARIO`, `CONTRASENA` y `TU_CLUSTER` por los valores correspondientes):
 
-Reemplazar `USUARIO`, `CONTRASENA` y `TU_CLUSTER` por los valores correspondientes.
+```dotenv
+MONGODB_URI=mongodb+srv://USUARIO:CONTRASENA@TU_CLUSTER.mongodb.net/?retryWrites=true&w=majority
+```
 
 El archivo `.env` contiene información sensible y no debe subirse al repositorio.
 
@@ -391,9 +397,19 @@ Los scripts leen `MONGODB_URI` y `MONGODB_DB` desde `.env`.
 
 ### 9.3 Regenerar los datos sintéticos desde cero
 
-Los generadores se encuentran en `database/generadores/`.
+Los generadores se encuentran en `database/generadores/` y usan una semilla fija
+(`Faker.seed(123)` y `random.seed(123)`), por lo que cada ejecución produce el mismo contenido.
 
-Los datos de comercios, clientes y productos pueden generarse primero:
+Los generadores escriben los JSON en `database/generadores/`, pero los scripts de carga leen
+de `database/seed/`. Por eso, después de generar, hay que copiar los archivos.
+
+Para empezar con una base vacía:
+
+```bash
+python -c "from pymongo import MongoClient; MongoClient('mongodb://localhost:27017').drop_database('MercadoTico360')"
+```
+
+1. Generar comercios, clientes y productos:
 
 ```bash
 python -m database.generadores.generar_comercios
@@ -401,29 +417,28 @@ python -m database.generadores.generar_clientes
 python -m database.generadores.generar_productos
 ```
 
-Luego se deben cargar esas tres colecciones:
+2. Copiar los JSON a la carpeta de carga y cargar esas tres colecciones:
 
 ```bash
+copy database\generadores\*.json database\seed\        # Linux/macOS: cp database/generadores/*.json database/seed/
 python database/seed/seed_comercios.py
 python database/seed/seed_clientes.py
 python database/seed/seed_productos.py
 ```
 
-Después se generan los pedidos:
+3. Generar los pedidos. El generador consulta los clientes y productos ya cargados en MongoDB,
+   por lo que este paso va después del anterior:
 
 ```bash
 python -m database.generadores.generar_pedidos
 ```
 
-El generador de pedidos consulta clientes y productos ya cargados en MongoDB, por lo que este paso debe realizarse después de cargar esas colecciones.
-
-Finalmente:
+4. Copiar el JSON de pedidos y cargarlo:
 
 ```bash
+copy database\generadores\pedidos.json database\seed\  # Linux/macOS: cp database/generadores/pedidos.json database/seed/
 python database/seed/seed_pedidos.py
 ```
-
-Los generadores utilizan una semilla fija para favorecer la reproducibilidad de los datos sintéticos.
 
 ### 9.4 Verificar la carga
 
@@ -451,7 +466,9 @@ pedidos:   50000
 
 ## 10. Ejecución
 
-Los principales comandos deben ejecutarse desde la raíz del repositorio con el entorno virtual activo y el archivo `.env` configurado.
+Los comandos deben ejecutarse desde la raíz del repositorio, con el entorno virtual activo y el
+archivo `.env` configurado. La guía completa para reproducir las pruebas de rendimiento está en
+[`Performance/README.md`](Performance/README.md).
 
 ### Cargar datos
 
@@ -465,16 +482,33 @@ python database/seed/seed_data.py
 python test/test_funcionales.py
 ```
 
-### Ejecutar benchmark
+Resultado esperado: 14 pruebas OK y 1 omitida (V5, por no haber `$jsonSchema`). Se guarda en
+`Performance/resultados/pruebas_funcionales.csv`.
+
+### Crear los índices (opcional)
 
 ```bash
-python Performance/scripts/benchmark.py
+mongosh "mongodb://localhost:27017" --file database/Index/indexes.js
 ```
 
-### Generar gráficos
+También puede pegarse el contenido de `database/Index/indexes.js` en la consola de MongoDB Compass.
+
+### Ejecutar el benchmark
 
 ```bash
-python Performance/scripts/graficos.py
+python Performance/scripts/benchmark.py --out Performance/resultados_final
+```
+
+### Generar los gráficos
+
+```bash
+python Performance/scripts/graficos.py --entrada Performance/resultados_final
+```
+
+### Ejecutar la demostración
+
+```bash
+python Performance/scripts/demo.py
 ```
 
 ---
@@ -757,7 +791,7 @@ Performance/scripts/benchmark.py
 Ejemplo de ejecución:
 
 ```bash
-python Performance/scripts/benchmark.py --reps 30 --agg-reps 5
+python Performance/scripts/benchmark.py --out Performance/resultados_final
 ```
 
 El benchmark compara consultas sin índice y con índice, además de recopilar métricas de agregaciones, carga y concurrencia.
@@ -766,50 +800,61 @@ El benchmark compara consultas sin índice y con índice, además de recopilar m
 
 ### 14.3 Resultados observados
 
-Resultados documentados en la tercera corrida:
+Mediana de 30 repeticiones sobre los datasets versionados en `database/seed/`
+(MongoDB 7.0.28, instancia local). Resultados completos en `Performance/resultados_final/`.
+Resultados documentados en la corrida final:
 
 | Consulta | Sin índice (ms) | Con índice (ms) | Mejora de mediana | Docs examinados sin/con |
 |---|---:|---:|---:|---:|
-| `Q1_categoria` | 47.59 | 29.84 | 37.3 % | 25000 / 3052 |
-| `Q2_rango_precio` | 65.43 | 13.26 | 79.7 % | 25000 / 1029 |
-| `Q3_categoria_precio` | 41.36 | 5.89 | 85.8 % | 25000 / 286 |
-| `Q4_categoria_precio_talla` | 62.16 | 8.36 | 86.5 % | 25000 / 1180 |
-| `Q5_comercio` | 50.70 | 1.53 | 97.0 % | 25000 / 54 |
-| `Q6_pedidos_cliente` | 146.73 | 1.11 | 99.2 % | 50000 / 6 |
-| `Q7_pedidos_producto` | 231.37 | 2.07 | 99.1 % | 50000 / 16 |
+| `Q1_categoria` | 39.26 | 30.50 | 22.3 % | 25 000 / 3 270 |
+| `Q2_rango_precio` | 62.41 | 10.39 | 83.4 % | 25 000 / 990 |
+| `Q3_categoria_precio` | 47.14 | 4.89 | 89.6 % | 25 000 / 329 |
+| `Q4_categoria_precio_talla` | 51.73 | 6.08 | 88.2 % | 25 000 / 1 273 |
+| `Q5_comercio` | 48.04 | 0.99 | 97.9 % | 25 000 / 54 |
+| `Q6_pedidos_cliente` | 114.94 | 0.55 | 99.5 % | 50 000 / 7 |
+| `Q7_pedidos_producto` | 234.81 | 0.49 | 99.8 % | 50 000 / 5 |
 
-En estas consultas, los planes registrados pasan de exploraciones completas de colección (`COLLSCAN`) a planes que utilizan índices (`IXSCAN`), con reducción de documentos examinados y de la mediana observada.
+En todas las consultas el plan pasa de `COLLSCAN` a `IXSCAN`. Las consultas más
+selectivas (Q5, Q6 y Q7) mejoran más. La consulta solo por categoría (Q1) mejora
+apenas un 22 %: devuelve cerca de una octava parte del catálogo, y el costo está
+sobre todo en leer esos documentos y no en encontrarlos.
 
-Estos resultados corresponden al entorno y conjunto de datos utilizados en las pruebas y no garantizan los mismos porcentajes en otro equipo o servidor.
 
 ### 14.4 Concurrencia
 
 | Hilos | Solicitudes | Solicitudes/s | Latencia media (ms) | p95 (ms) |
 |---:|---:|---:|---:|---:|
-| 10 | 200 | 353.8 | 24.273 | 47.595 |
-| 50 | 1000 | 339.0 | 90.902 | 199.35 |
-| 100 | 2000 | 304.8 | 143.815 | 347.905 |
+| 10 | 200 | 611.7 | 14.445 | 33.171 |
+| 50 | 1 000 | 621.4 | 44.290 | 105.778 |
+| 100 | 2 000 | 559.5 | 76.304 | 196.594 |
 
-En el entorno medido, la latencia aumentó conforme creció el número de hilos concurrentes.
+El rendimiento se estabiliza desde los 10 hilos y la latencia aumenta con el
+número de hilos concurrentes.
+
 
 ### 14.5 Agregaciones
 
 | Agregación | Resultados devueltos | Repeticiones | Mediana (ms) | p95 (ms) |
 |---|---:|---:|---:|---:|
-| `A1_ventas_por_categoria` | 8 | 5 | 33550.63 | 38602.80 |
-| `A2_ticket_promedio` | 1 | 5 | 230.43 | 294.49 |
-| `A3_productos_mas_vendidos` | 10 | 5 | 685.92 | 719.66 |
+| `A1_ventas_por_categoria` | 8 | 5 | 38 632.65 | 39 618.98 |
+| `A2_ticket_promedio` | 1 | 5 | 259.29 | 267.81 |
+| `A3_productos_mas_vendidos` | 10 | 5 | 757.01 | 773.73 |
 
-La agregación de ventas por categoría fue la más costosa de las tres en la corrida documentada.
+La agregación de ventas por categoría es la más costosa porque cada línea de
+pedido requiere un `$lookup` a `productos` para obtener la categoría.
+
 
 ### 14.6 Carga masiva
 
+
 | Colección | Documentos | Tiempo de inserción (s) | Documentos/s |
 |---|---:|---:|---:|
-| `comercios` | 500 | 0.027 | 18585.8 |
-| `clientes` | 10000 | 0.181 | 55142.4 |
-| `productos` | 25000 | 0.518 | 48253.0 |
-| `pedidos` | 50000 | 2.467 | 20270.8 |
+| `comercios` | 500 | 0.018 | 27 864 |
+| `clientes` | 10 000 | 0.114 | 87 614 |
+| `productos` | 25 000 | 0.390 | 64 144 |
+| `pedidos` | 50 000 | 1.600 | 31 251 |
+
+
 
 ### 14.7 Evidencias
 
@@ -831,7 +876,7 @@ Entre los archivos generados se incluyen:
 Para generar los gráficos:
 
 ```bash
-python Performance/scripts/graficos.py
+python Performance/scripts/graficos.py --entrada Performance/resultados_final
 ```
 
 ---
