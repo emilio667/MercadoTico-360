@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-Benchmark de rendimiento - MercadoTico 360 
+Benchmark de rendimiento - MercadoTico 360 (Integrante 5: QA & Performance)
 
 Mide, sobre la base MongoDB ya cargada (ver README de la raiz):
   1. Consultas frecuentes SIN indice y CON indice (tiempo, docs examinados, explain).
@@ -46,9 +46,9 @@ from pymongo import MongoClient
 RAIZ = Path(__file__).resolve().parents[2]
 SALIDA_DEFECTO = RAIZ / "Performance" / "resultados"
 
-
+# ----------------------------------------------------------------------------
 # Indices a evaluar: (coleccion, nombre, claves)
-
+# ----------------------------------------------------------------------------
 INDICES = [
     ("productos", "idx_categoria_precio", [("categoria", 1), ("precio", 1)]),
     ("productos", "idx_precio", [("precio", 1)]),
@@ -58,9 +58,9 @@ INDICES = [
     ("pedidos", "idx_lineas_producto", [("lineas_detalle.producto_id", 1)]),
 ]
 
-
+# ----------------------------------------------------------------------------
 # Consultas a medir (equivalentes a database/queries/consultas_*.py)
-
+# ----------------------------------------------------------------------------
 CONSULTAS = [
     {
         "id": "Q1_categoria",
@@ -116,9 +116,9 @@ CONSULTAS = [
     },
 ]
 
-
+# ----------------------------------------------------------------------------
 # Agregaciones (equivalentes a database/queries/agregaciones.py)
-
+# ----------------------------------------------------------------------------
 AGREGACIONES = [
     {
         "id": "A1_ventas_por_categoria",
@@ -164,9 +164,9 @@ CATEGORIAS = ["Alimentos", "Ropa", "Tecnología", "Artesanías",
               "Servicios", "Hogar", "Belleza", "Deportes"]
 
 
-
+# ----------------------------------------------------------------------------
 # Utilidades estadisticas
-
+# ----------------------------------------------------------------------------
 def percentil(valores, p):
     """Percentil p (0-100) por el metodo del rango mas cercano."""
     ordenados = sorted(valores)
@@ -185,9 +185,9 @@ def resumen(tiempos_ms):
     }
 
 
-
+# ----------------------------------------------------------------------------
 # Indices
-
+# ----------------------------------------------------------------------------
 def nombres_indices_propios():
     return {nombre for _, nombre, _ in INDICES}
 
@@ -224,9 +224,9 @@ def crear_indices(db):
     return tiempos
 
 
-
+# ----------------------------------------------------------------------------
 # Medicion de consultas
-
+# ----------------------------------------------------------------------------
 def cursor_de(col, consulta):
     cur = col.find(consulta["filtro"])
     if consulta["orden"]:
@@ -283,6 +283,32 @@ def medir_consulta(col, consulta, reps):
     return tiempos, devueltos
 
 
+def resolver_parametros(db):
+    """
+    Los parametros de Q5, Q6 y Q7 (COM-001, CLI-00001, PROD-00001) deben existir
+    en los datos cargados; si no, la consulta devolveria 0 documentos y la
+    medicion no seria representativa. En ese caso se usa un valor real
+    (el del primer pedido / producto, de forma determinista).
+    """
+    cliente = "CLI-00001"
+    if db.pedidos.count_documents({"cliente_id": cliente}, limit=1) == 0:
+        cliente = db.pedidos.find_one({}, sort=[("_id", 1)])["cliente_id"]
+    producto = "PROD-00001"
+    if db.pedidos.count_documents({"lineas_detalle.producto_id": producto}, limit=1) == 0:
+        producto = db.pedidos.find_one({}, sort=[("_id", 1)])["lineas_detalle"][0]["producto_id"]
+    comercio = "COM-001"
+    if db.productos.count_documents({"comercio_id": comercio}, limit=1) == 0:
+        comercio = db.productos.find_one({}, sort=[("_id", 1)])["comercio_id"]
+    for consulta in CONSULTAS:
+        if consulta["id"] == "Q5_comercio":
+            consulta["filtro"] = {"comercio_id": comercio}
+        elif consulta["id"] == "Q6_pedidos_cliente":
+            consulta["filtro"] = {"cliente_id": cliente}
+        elif consulta["id"] == "Q7_pedidos_producto":
+            consulta["filtro"] = {"lineas_detalle.producto_id": producto}
+    return {"cliente_id": cliente, "producto_id": producto, "comercio_id": comercio}
+
+
 def fase_consultas(db, condicion, reps, dir_capturas, crudos):
     filas = []
     for consulta in CONSULTAS:
@@ -307,9 +333,9 @@ def fase_consultas(db, condicion, reps, dir_capturas, crudos):
     return filas
 
 
-
+# ----------------------------------------------------------------------------
 # Agregaciones
-
+# ----------------------------------------------------------------------------
 def fase_agregaciones(db, reps, crudos):
     filas = []
     for agg in AGREGACIONES:
@@ -331,9 +357,9 @@ def fase_agregaciones(db, reps, crudos):
     return filas
 
 
-
+# ----------------------------------------------------------------------------
 # Concurrencia
-
+# ----------------------------------------------------------------------------
 def trabajador(db, semilla, n_solicitudes, n_clientes):
     rnd = random.Random(semilla)
     latencias = []
@@ -379,9 +405,9 @@ def fase_concurrencia(uri, nombre_db, semilla, solicitudes_por_hilo=20):
     return filas
 
 
-
+# ----------------------------------------------------------------------------
 # Carga masiva
-
+# ----------------------------------------------------------------------------
 def buscar_json(nombre):
     for carpeta in (RAIZ / "database" / "seed", RAIZ / "database" / "generadores"):
         ruta = carpeta / f"{nombre}.json"
@@ -420,9 +446,9 @@ def fase_carga(db):
     return filas
 
 
-
+# ----------------------------------------------------------------------------
 # Entorno y salida
-
+# ----------------------------------------------------------------------------
 def info_entorno(client, db, args):
     ram = "N/D (instalar psutil para obtenerla)"
     try:
@@ -498,6 +524,10 @@ def main():
     if ajenos and not args.ignorar_indices_ajenos:
         sys.exit("Hay indices que no son del benchmark y falsearian la medicion "
                  f"'sin indice': {ajenos}\nBorralos o usa --ignorar-indices-ajenos")
+
+    parametros = resolver_parametros(db)
+    entorno["parametros_consultas"] = parametros
+    print(f"Parametros de las consultas: {parametros}")
 
     dir_capturas = args.out / "capturas"
     dir_capturas.mkdir(parents=True, exist_ok=True)
