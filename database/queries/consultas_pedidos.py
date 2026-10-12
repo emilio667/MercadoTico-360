@@ -13,11 +13,17 @@ uri = os.getenv("MONGODB_URI")
 if not uri:
     raise ValueError("No se encontró MONGODB_URI en el archivo .env")
 
+#Obtiene el nombre de la base de datos
+nombre_db = os.getenv("MONGODB_DB")
+
+if not nombre_db:
+    raise ValueError("No se encontró MONGODB_DB en el archivo .env")
+
 #Conexión con MongoDB Atlas
 client = MongoClient(uri)
 
 #Base de datos utilizada
-db = client["MercadoTico360"]
+db = client[nombre_db]
 
 #Colección de pedidos
 pedidos = db["pedidos"]
