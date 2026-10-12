@@ -4,6 +4,30 @@ MercadoTico 360 es una solución NoSQL orientada a documentos para un marketplac
 
 El proyecto fue desarrollado para el curso **XS-0131 Gestión de Bases de Datos y Análisis de Información**.
 
+
+
+## Inicio rápido (MongoDB local)
+
+Requisitos: Git, Python 3 y MongoDB 7.0 corriendo en `mongodb://localhost:27017`.
+
+```powershell
+git clone https://github.com/emilio667/MercadoTico-360.git
+cd MercadoTico-360
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1          # Linux/macOS: source .venv/bin/activate
+pip install -r requirements.txt
+copy .env.example .env                # Linux/macOS: cp .env.example .env
+```
+
+Editar `.env` con `MONGODB_URI=mongodb://localhost:27017` y `MONGODB_DB=MercadoTico360`. Luego:
+
+```powershell
+python database/seed/seed_data.py     # carga 85 500 documentos
+python test/test_funcionales.py       # 14 OK y 1 omitida (V5)
+python Performance/scripts/demo.py --auto
+```
+
+Las pruebas de rendimiento y su reproducción están en `Performance/README.md`.
 ---
 
 ## Índice
