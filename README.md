@@ -119,6 +119,8 @@ Antes de ejecutar el proyecto es necesario contar con:
 - Acceso de red al servidor; en Atlas, configurar el usuario de base de datos y la lista de direcciones IP permitidas
 - Espacio suficiente para los archivos JSON y las colecciones de prueba
 
+Para reproducir las pruebas de rendimiento, se recomienda utilizar un entorno aislado y mantener las versiones de las herramientas lo más cercanas posible a las empleadas en las mediciones originales. Las características específicas del entorno evaluado se encuentran documentadas en Performance/resultados_final/entorno.json.
+
 ## 7. Instalación y configuración
 
 ### 7.1 Clonar el repositorio
