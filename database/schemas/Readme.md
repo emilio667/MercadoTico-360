@@ -9,6 +9,7 @@ Se deben definir las estructuras correspondientes a las principales
 colecciones de la base de datos:
 
 - Productos
+- Comercios
 - Clientes
 - Pedidos
 
@@ -18,59 +19,33 @@ El catálogo debe permitir que diferentes categorías tengan atributos
 diferentes. No se debe forzar que todos los productos tengan exactamente
 los mismos atributos.
 
-Ejemplos de categorías:
+Cada producto debe estar asociado a un comercio mediante el campo
+`comercio_id`, que referencia el identificador del comercio correspondiente.
+
+Las categorías permitidas son:
 
 - Alimentos
 - Ropa
 - Tecnología
 - Artesanías
 - Servicios
-- Otras categorías hasta completar al menos 8.
+- Hogar
+- Belleza
+- Deportes
 
 Ejemplo conceptual:
 
+```python
 {
-    nombre: "...",
-    categoria: "...",
-    precio: 0,
-    stock: 0,
-    atributos: {
-        ...
+    "_id": "PROD-001",
+    "nombre": "Camiseta Spiderman",
+    "categoria": "Ropa",
+    "precio": 18000.00,
+    "comercio_id": "COM-102",
+    "stock": 45,
+    "atributos": {
+        "talla": "M",
+        "color": "Azul",
+        "material": "Algodon"
     }
 }
-
-Los atributos específicos deben poder variar según la categoría.
-
-## Pedidos
-
-Los pedidos deben contener información suficiente para reconstruir qué
-compró el cliente aunque posteriormente cambie la información del producto.
-
-Los detalles del pedido deben incluir información histórica del producto,
-por ejemplo:
-
-- producto_id
-- nombre del producto
-- precio al momento de la compra
-- cantidad
-- otros datos necesarios
-
-Los productos que forman parte de un pedido pueden representarse mediante
-estructuras anidadas.
-
-## Clientes
-
-Debe definirse la información necesaria para identificar y consultar
-los clientes del marketplace.
-
-## Validación
-
-Cuando sea apropiado, se deben establecer reglas de validación para:
-
-- Tipos de datos
-- Campos requeridos
-- Rangos de valores
-- Valores permitidos
-
-La estructura debe aprovechar la flexibilidad del modelo documental de
-MongoDB.

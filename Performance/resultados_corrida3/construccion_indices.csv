@@ -1,0 +1,7 @@
+﻿coleccion,indice,claves,construccion_ms
+productos,idx_categoria_precio,"[[""categoria"", 1], [""precio"", 1]]",289.861
+productos,idx_precio,"[[""precio"", 1]]",235.686
+productos,idx_atributos_talla,"[[""atributos.talla"", 1]]",237.85
+productos,idx_comercio,"[[""comercio_id"", 1]]",241.461
+pedidos,idx_cliente_fecha,"[[""cliente_id"", 1], [""fecha"", -1]]",421.734
+pedidos,idx_lineas_producto,"[[""lineas_detalle.producto_id"", 1]]",1149.978

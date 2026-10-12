@@ -1,0 +1,104 @@
+Riesgos técnicos — MercadoTico 360 (MongoDB)
+
+Responsable: Integrante 5 (QA & Performance) Estado: borrador inicial (Entregable 1)
+
+Cada riesgo indica su probabilidad e impacto (Baja, Media o Alta), su mitigación y un responsable propuesto.
+
+Riesgos identificados
+R1. Credenciales de MongoDB Atlas expuestas en el repositorio o en su historial de commits
+Probabilidad: Media. Impacto: Alta.
+Mitigación: usar .env (en .gitignore) y .env.example sin secretos; cambiar cualquier contraseña que haya estado en el repositorio.
+Responsable: todos.
+
+
+R2. El profesor no puede reproducir el entorno si solo funciona con Atlas
+Probabilidad: Media. Impacto: Alta.
+Mitigación: documentar una alternativa local (MongoDB en Docker) en el README.
+Responsable: Integrante 6.
+
+
+R3. Las líneas de pedido no guardan nombre y precio al momento de la compra
+Probabilidad: Media. Impacto: Alta.
+Mitigación: definir lineas_detalle con nombre, precio unitario y cantidad; verificar con la prueba F5.
+Responsable: Integrante 4.
+
+
+R4. Los índices no cubren las consultas reales (por ejemplo categoría, precio y atributo)
+Probabilidad: Media. Impacto: Media.
+Mitigación: revisar con explain(); evaluar un índice compuesto como (categoria, atributos.talla, precio).
+Responsable: Integrantes 4 y 5.
+
+
+R5. Atributos inconsistentes entre productos de una misma categoría
+Probabilidad: Media. Impacto: Media.
+Mitigación: aplicar validación de esquema ($jsonSchema) por categoría.
+Responsable: Integrante 4.
+
+
+R6. No se alcanza el volumen mínimo de datos (25 000 productos, 10 000 clientes, 50 000 pedidos)
+Probabilidad: Baja. Impacto: Alta.
+Mitigación: verificar los conteos tras el seeding y generar con semilla fija.
+Responsable: Integrante 3.
+
+
+R7. Mediciones poco confiables por caché, otros procesos o hardware distinto
+Probabilidad: Alta. Impacto: Media.
+Mitigación: calentamiento, 30 repeticiones, mediana y percentil 95, mismo entorno y hardware documentado.
+Responsable: Integrante 5.
+
+
+R8. Resultados con y sin índice no comparables
+Probabilidad: Media. Impacto: Alta.
+Mitigación: mismos datos y mismo orden de pruebas; crear el índice solo después de medir sin él.
+Responsable: Integrante 5.
+
+
+R9. Crecimiento sin control del documento de pedido (muchas líneas de detalle)
+Probabilidad: Baja. Impacto: Media.
+Mitigación: limitar las líneas por pedido en el generador y documentar el límite de 16 MB por documento de MongoDB.
+Responsable: Integrante 3.
+
+
+R10. Los límites del plan gratuito de Atlas (almacenamiento y rendimiento) afectan las pruebas
+Probabilidad: Media. Impacto: Media.
+Mitigación: ejecutar las pruebas en local y reportar el entorno.
+Responsable: Integrante 5.
+
+
+R11. Falla de la demostración en vivo
+Probabilidad: Media. Impacto: Alta.
+Mitigación: respaldo local de los datos, capturas y un video corto de la ejecución.
+Responsable: todos.
+
+
+R12. Historial del repositorio con pocos aportes por integrante
+Probabilidad: Media. Impacto: Alta.
+Mitigación: commits pequeños y frecuentes de cada integrante, en fechas distintas.
+Responsable: todos.
+
+
+Limitaciones conocidas (para la sección de limitaciones del paper)
+Los datos son sintéticos y pueden no reflejar patrones reales de compra.
+Las mediciones dependen del hardware y la configuración del entorno de pruebas.
+Los resultados corresponden a una instancia única, no a un clúster distribuido.
+El alcance excluye interfaz de usuario, pasarelas de pago y logística.
+
+
+Pendientes
+Confirmar responsables con el grupo.
+Actualizar probabilidad e impacto después de las primeras mediciones.
+Pasar un resumen de estos riesgos al documento de la Propuesta Inicial.
+
+
+
+Resumen para la prueba inicial:
+
+Riesgos técnicos identificados
+Credenciales de Atlas expuestas en el repositorio. Mitigación: usar .env en .gitignore y un .env.example sin secretos, y cambiar toda contraseña que haya estado en el repositorio.
+Entorno no reproducible si solo funciona con Atlas. Mitigación: documentar una alternativa local con MongoDB en Docker.
+Líneas de pedido sin nombre ni precio al momento de la compra, lo que rompe la integridad histórica. Mitigación: definir lineas_detalle con nombre, precio unitario y cantidad.
+Índices que no cubren las consultas reales. Mitigación: revisar con explain() y evaluar un índice compuesto.
+Atributos inconsistentes entre productos de una misma categoría. Mitigación: validación de esquema con $jsonSchema.
+No alcanzar el volumen mínimo de datos. Mitigación: verificar los conteos tras el seeding.
+Mediciones poco confiables por caché o hardware. Mitigación: calentamiento, 30 repeticiones, mediana y percentil 95, y entorno documentado.
+Falla de la demostración en vivo. Mitigación: respaldo local, capturas y un video corto.

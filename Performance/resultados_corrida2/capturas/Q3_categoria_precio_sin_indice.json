@@ -1,0 +1,126 @@
+{
+  "explainVersion": "1",
+  "queryPlanner": {
+    "namespace": "MercadoTico360.productos",
+    "indexFilterSet": false,
+    "parsedQuery": {
+      "$and": [
+        {
+          "categoria": {
+            "$eq": "Tecnología"
+          }
+        },
+        {
+          "precio": {
+            "$lte": 150000
+          }
+        },
+        {
+          "precio": {
+            "$gte": 100000
+          }
+        }
+      ]
+    },
+    "queryHash": "C6B1D415",
+    "planCacheKey": "C6B1D415",
+    "optimizationTimeMillis": 0,
+    "maxIndexedOrSolutionsReached": false,
+    "maxIndexedAndSolutionsReached": false,
+    "maxScansToExplodeReached": false,
+    "winningPlan": {
+      "stage": "COLLSCAN",
+      "filter": {
+        "$and": [
+          {
+            "categoria": {
+              "$eq": "Tecnología"
+            }
+          },
+          {
+            "precio": {
+              "$lte": 150000
+            }
+          },
+          {
+            "precio": {
+              "$gte": 100000
+            }
+          }
+        ]
+      },
+      "direction": "forward"
+    },
+    "rejectedPlans": []
+  },
+  "executionStats": {
+    "executionSuccess": true,
+    "nReturned": 286,
+    "executionTimeMillis": 40,
+    "totalKeysExamined": 0,
+    "totalDocsExamined": 25000,
+    "executionStages": {
+      "stage": "COLLSCAN",
+      "filter": {
+        "$and": [
+          {
+            "categoria": {
+              "$eq": "Tecnología"
+            }
+          },
+          {
+            "precio": {
+              "$lte": 150000
+            }
+          },
+          {
+            "precio": {
+              "$gte": 100000
+            }
+          }
+        ]
+      },
+      "nReturned": 286,
+      "executionTimeMillisEstimate": 3,
+      "works": 25001,
+      "advanced": 286,
+      "needTime": 24714,
+      "needYield": 0,
+      "saveState": 25,
+      "restoreState": 25,
+      "isEOF": 1,
+      "direction": "forward",
+      "docsExamined": 25000
+    },
+    "allPlansExecution": []
+  },
+  "command": {
+    "find": "productos",
+    "filter": {
+      "categoria": "Tecnología",
+      "precio": {
+        "$gte": 100000,
+        "$lte": 150000
+      }
+    },
+    "$db": "MercadoTico360"
+  },
+  "serverInfo": {
+    "host": "Laptop_Justin",
+    "port": 27017,
+    "version": "7.0.28",
+    "gitVersion": "cfc346c59d2cc3dbc903507fc642e22e3097f362"
+  },
+  "serverParameters": {
+    "internalQueryFacetBufferSizeBytes": 104857600,
+    "internalQueryFacetMaxOutputDocSizeBytes": 104857600,
+    "internalLookupStageIntermediateDocumentMaxSizeBytes": 104857600,
+    "internalDocumentSourceGroupMaxMemoryBytes": 104857600,
+    "internalQueryMaxBlockingSortMemoryUsageBytes": 104857600,
+    "internalQueryProhibitBlockingMergeOnMongoS": 0,
+    "internalQueryMaxAddToSetBytes": 104857600,
+    "internalDocumentSourceSetWindowFieldsMaxMemoryBytes": 104857600,
+    "internalQueryFrameworkControl": "forceClassicEngine"
+  },
+  "ok": 1.0
+}

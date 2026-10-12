@@ -1,0 +1,21 @@
+{
+  "fecha_ejecucion": "2026-10-10T14:55:02",
+  "sistema_operativo": "Windows-11-10.0.26200-SP0",
+  "procesador": "Intel64 Family 6 Model 186 Stepping 2, GenuineIntel",
+  "nucleos_logicos": 12,
+  "ram": "15.7 GB",
+  "disco": "COMPLETAR A MANO (SSD/HDD)",
+  "python": "3.15.0",
+  "pymongo": "4.18.3",
+  "mongodb": "7.0.28",
+  "base_de_datos": "MercadoTico360",
+  "documentos": {
+    "comercios": 500,
+    "clientes": 10000,
+    "productos": 25000,
+    "pedidos": 50000
+  },
+  "repeticiones_consultas": 30,
+  "repeticiones_agregaciones": 5,
+  "semilla": 42
+}

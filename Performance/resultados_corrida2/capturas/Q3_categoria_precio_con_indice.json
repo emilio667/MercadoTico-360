@@ -1,0 +1,303 @@
+{
+  "explainVersion": "1",
+  "queryPlanner": {
+    "namespace": "MercadoTico360.productos",
+    "indexFilterSet": false,
+    "parsedQuery": {
+      "$and": [
+        {
+          "categoria": {
+            "$eq": "Tecnología"
+          }
+        },
+        {
+          "precio": {
+            "$lte": 150000
+          }
+        },
+        {
+          "precio": {
+            "$gte": 100000
+          }
+        }
+      ]
+    },
+    "queryHash": "C6B1D415",
+    "planCacheKey": "676B7048",
+    "optimizationTimeMillis": 0,
+    "maxIndexedOrSolutionsReached": false,
+    "maxIndexedAndSolutionsReached": false,
+    "maxScansToExplodeReached": false,
+    "winningPlan": {
+      "stage": "FETCH",
+      "inputStage": {
+        "stage": "IXSCAN",
+        "keyPattern": {
+          "categoria": 1,
+          "precio": 1
+        },
+        "indexName": "idx_categoria_precio",
+        "isMultiKey": false,
+        "multiKeyPaths": {
+          "categoria": [],
+          "precio": []
+        },
+        "isUnique": false,
+        "isSparse": false,
+        "isPartial": false,
+        "indexVersion": 2,
+        "direction": "forward",
+        "indexBounds": {
+          "categoria": [
+            "[\"Tecnología\", \"Tecnología\"]"
+          ],
+          "precio": [
+            "[100000, 150000]"
+          ]
+        }
+      }
+    },
+    "rejectedPlans": [
+      {
+        "stage": "FETCH",
+        "filter": {
+          "categoria": {
+            "$eq": "Tecnología"
+          }
+        },
+        "inputStage": {
+          "stage": "IXSCAN",
+          "keyPattern": {
+            "precio": 1
+          },
+          "indexName": "idx_precio",
+          "isMultiKey": false,
+          "multiKeyPaths": {
+            "precio": []
+          },
+          "isUnique": false,
+          "isSparse": false,
+          "isPartial": false,
+          "indexVersion": 2,
+          "direction": "forward",
+          "indexBounds": {
+            "precio": [
+              "[100000, 150000]"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  "executionStats": {
+    "executionSuccess": true,
+    "nReturned": 286,
+    "executionTimeMillis": 0,
+    "totalKeysExamined": 286,
+    "totalDocsExamined": 286,
+    "executionStages": {
+      "stage": "FETCH",
+      "nReturned": 286,
+      "executionTimeMillisEstimate": 0,
+      "works": 287,
+      "advanced": 286,
+      "needTime": 0,
+      "needYield": 0,
+      "saveState": 0,
+      "restoreState": 0,
+      "isEOF": 1,
+      "docsExamined": 286,
+      "alreadyHasObj": 0,
+      "inputStage": {
+        "stage": "IXSCAN",
+        "nReturned": 286,
+        "executionTimeMillisEstimate": 0,
+        "works": 287,
+        "advanced": 286,
+        "needTime": 0,
+        "needYield": 0,
+        "saveState": 0,
+        "restoreState": 0,
+        "isEOF": 1,
+        "keyPattern": {
+          "categoria": 1,
+          "precio": 1
+        },
+        "indexName": "idx_categoria_precio",
+        "isMultiKey": false,
+        "multiKeyPaths": {
+          "categoria": [],
+          "precio": []
+        },
+        "isUnique": false,
+        "isSparse": false,
+        "isPartial": false,
+        "indexVersion": 2,
+        "direction": "forward",
+        "indexBounds": {
+          "categoria": [
+            "[\"Tecnología\", \"Tecnología\"]"
+          ],
+          "precio": [
+            "[100000, 150000]"
+          ]
+        },
+        "keysExamined": 286,
+        "seeks": 1,
+        "dupsTested": 0,
+        "dupsDropped": 0
+      }
+    },
+    "allPlansExecution": [
+      {
+        "nReturned": 101,
+        "executionTimeMillisEstimate": 0,
+        "totalKeysExamined": 101,
+        "totalDocsExamined": 101,
+        "score": 2.0002,
+        "executionStages": {
+          "stage": "FETCH",
+          "nReturned": 101,
+          "executionTimeMillisEstimate": 0,
+          "works": 101,
+          "advanced": 101,
+          "needTime": 0,
+          "needYield": 0,
+          "saveState": 0,
+          "restoreState": 0,
+          "isEOF": 0,
+          "docsExamined": 101,
+          "alreadyHasObj": 0,
+          "inputStage": {
+            "stage": "IXSCAN",
+            "nReturned": 101,
+            "executionTimeMillisEstimate": 0,
+            "works": 101,
+            "advanced": 101,
+            "needTime": 0,
+            "needYield": 0,
+            "saveState": 0,
+            "restoreState": 0,
+            "isEOF": 0,
+            "keyPattern": {
+              "categoria": 1,
+              "precio": 1
+            },
+            "indexName": "idx_categoria_precio",
+            "isMultiKey": false,
+            "multiKeyPaths": {
+              "categoria": [],
+              "precio": []
+            },
+            "isUnique": false,
+            "isSparse": false,
+            "isPartial": false,
+            "indexVersion": 2,
+            "direction": "forward",
+            "indexBounds": {
+              "categoria": [
+                "[\"Tecnología\", \"Tecnología\"]"
+              ],
+              "precio": [
+                "[100000, 150000]"
+              ]
+            },
+            "keysExamined": 101,
+            "seeks": 1,
+            "dupsTested": 0,
+            "dupsDropped": 0
+          }
+        }
+      },
+      {
+        "nReturned": 14,
+        "executionTimeMillisEstimate": 0,
+        "totalKeysExamined": 101,
+        "totalDocsExamined": 101,
+        "score": 1.1388138613861387,
+        "executionStages": {
+          "stage": "FETCH",
+          "filter": {
+            "categoria": {
+              "$eq": "Tecnología"
+            }
+          },
+          "nReturned": 14,
+          "executionTimeMillisEstimate": 0,
+          "works": 101,
+          "advanced": 14,
+          "needTime": 87,
+          "needYield": 0,
+          "saveState": 1,
+          "restoreState": 0,
+          "isEOF": 0,
+          "docsExamined": 101,
+          "alreadyHasObj": 0,
+          "inputStage": {
+            "stage": "IXSCAN",
+            "nReturned": 101,
+            "executionTimeMillisEstimate": 0,
+            "works": 101,
+            "advanced": 101,
+            "needTime": 0,
+            "needYield": 0,
+            "saveState": 1,
+            "restoreState": 0,
+            "isEOF": 0,
+            "keyPattern": {
+              "precio": 1
+            },
+            "indexName": "idx_precio",
+            "isMultiKey": false,
+            "multiKeyPaths": {
+              "precio": []
+            },
+            "isUnique": false,
+            "isSparse": false,
+            "isPartial": false,
+            "indexVersion": 2,
+            "direction": "forward",
+            "indexBounds": {
+              "precio": [
+                "[100000, 150000]"
+              ]
+            },
+            "keysExamined": 101,
+            "seeks": 1,
+            "dupsTested": 0,
+            "dupsDropped": 0
+          }
+        }
+      }
+    ]
+  },
+  "command": {
+    "find": "productos",
+    "filter": {
+      "categoria": "Tecnología",
+      "precio": {
+        "$gte": 100000,
+        "$lte": 150000
+      }
+    },
+    "$db": "MercadoTico360"
+  },
+  "serverInfo": {
+    "host": "Laptop_Justin",
+    "port": 27017,
+    "version": "7.0.28",
+    "gitVersion": "cfc346c59d2cc3dbc903507fc642e22e3097f362"
+  },
+  "serverParameters": {
+    "internalQueryFacetBufferSizeBytes": 104857600,
+    "internalQueryFacetMaxOutputDocSizeBytes": 104857600,
+    "internalLookupStageIntermediateDocumentMaxSizeBytes": 104857600,
+    "internalDocumentSourceGroupMaxMemoryBytes": 104857600,
+    "internalQueryMaxBlockingSortMemoryUsageBytes": 104857600,
+    "internalQueryProhibitBlockingMergeOnMongoS": 0,
+    "internalQueryMaxAddToSetBytes": 104857600,
+    "internalDocumentSourceSetWindowFieldsMaxMemoryBytes": 104857600,
+    "internalQueryFrameworkControl": "forceClassicEngine"
+  },
+  "ok": 1.0
+}

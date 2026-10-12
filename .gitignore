@@ -18,3 +18,11 @@ Thumbs.db
 # Archivos de editores
 .vscode/
 .idea/
+
+# Python
+__pycache__/
+*.pyc
+
+# Datos generados
+database/generadores/*.json
+database/seed/*.json
