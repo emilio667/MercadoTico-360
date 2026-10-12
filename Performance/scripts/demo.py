@@ -6,21 +6,23 @@ Muestra, paso a paso y con salida clara en pantalla, las evidencias que pide el
 enunciado para el caso MercadoTico 360:
   1. Conexion y datos cargados
   2. Catalogo heterogeneo (atributos distintos por categoria)
-  3. Pedido con estructura anidada y busqueda por _id
+  3. Pedido con estructura anidada, busqueda por _id y actualizacion de estado
   4. Indices: antes y despues (con explain)
-  5. Evolucion del esquema sin migracion
-  6. Historial del pedido intacto aunque cambie el precio del producto
-  7. Validacion de datos invalidos
+  5. Agregaciones: ticket promedio, mas vendidos y ventas por categoria
+  6. Evolucion del esquema sin migracion
+  7. Historial del pedido intacto aunque cambie el precio del producto
+  8. Validacion de datos invalidos
 
 Uso (desde la raiz del repositorio, con el entorno virtual activo):
     python Performance/scripts/demo.py                  # paso a paso (Enter)
     python Performance/scripts/demo.py --auto           # sin pausas (ensayo)
-    python Performance/scripts/demo.py --pasos 4,6      # solo algunos pasos
+    python Performance/scripts/demo.py --pasos 4,5      # solo algunos pasos
+    python Performance/scripts/demo.py --agregacion-completa   # paso 5 con los 50 000 pedidos
     python Performance/scripts/demo.py --mantener-indices   # deja los indices del paso 4
 
 SEGURIDAD DE LOS DATOS
 - No modifica ni borra los datos reales.
-- Los pasos 5 y 6 trabajan sobre copias en colecciones temporales demo_*,
+- Los pasos 3, 6 y 7 trabajan sobre copias en colecciones temporales demo_*,
   que se eliminan al terminar.
 - El paso 4 crea dos indices con nombre demo_* y los elimina al terminar
   (salvo --mantener-indices). La medicion "sin indice" fuerza un recorrido
@@ -32,6 +34,7 @@ import contextlib
 import io
 import json
 import os
+import re
 import statistics
 import sys
 import time
@@ -42,6 +45,7 @@ sys.path.insert(0, str(RAIZ))
 
 from dotenv import load_dotenv
 from pymongo import MongoClient
+from pymongo.errors import OperationFailure
 
 with contextlib.redirect_stdout(io.StringIO()):
     from database.schemas.modelos_de_estructuras import crear_estructura_producto
@@ -107,6 +111,12 @@ def mediana_ms(fabrica, repeticiones=10):
     return statistics.median(tiempos)
 
 
+def claves_norm(k):
+    """Normaliza las claves de un indice a [(campo, 1 | -1)], venga como lista, lista de listas o dict."""
+    items = k.items() if hasattr(k, "items") else k
+    return [(str(campo), int(sentido)) for campo, sentido in items]
+
+
 def comparar_indice(descripcion, coleccion, filtro, orden, claves, nombre,
                     auto, mantener):
     def cursor(hint):
@@ -128,11 +138,45 @@ def comparar_indice(descripcion, coleccion, filtro, orden, claves, nombre,
     print(f"    tiempo mediano:        {ms_sin:.2f} ms")
 
     pausa(auto)
-    print(f"  Creando el indice {nombre} sobre {claves} ...")
-    t0 = time.perf_counter()
-    coleccion.create_index(claves, name=nombre)
-    print(f"  Indice creado en {(time.perf_counter() - t0) * 1000:.0f} ms")
+
+    # MongoDB no permite dos indices con las mismas claves y distinto nombre. Si ya existe
+    # uno (por ejemplo, el de database/Index/indexes.js), se retira un momento y se
+    # restaura al terminar, para poder crear el indice delante del publico.
+    objetivo = claves_norm(claves)
+    retirados = []
+
+    def retirar(nombre_existente, claves_existentes):
+        print(f"  (Se retira un momento el indice ya existente {nombre_existente}; "
+              "se restaura al terminar)")
+        coleccion.drop_index(nombre_existente)
+        retirados.append((nombre_existente, claves_existentes))
+
+    existentes = coleccion.index_information()
+    if nombre in existentes:                      # resto de una ejecucion anterior
+        coleccion.drop_index(nombre)
+    for nombre_existente, info in existentes.items():
+        if nombre_existente not in ("_id_", nombre) and claves_norm(info["key"]) == objetivo:
+            retirar(nombre_existente, claves_norm(info["key"]))
+
+    creado = False
     try:
+        print(f"  Creando el indice {nombre} sobre {claves} ...")
+        t0 = time.perf_counter()
+        for intento in range(2):
+            try:
+                coleccion.create_index(claves, name=nombre)
+                creado = True
+                break
+            except OperationFailure as error:
+                # Respaldo: si MongoDB avisa que ya hay un indice igual con otro nombre, se retira
+                coincide = re.search(r"different name: ([^\s,]+)", str(error))
+                if intento == 0 and coincide and coincide.group(1) != nombre:
+                    otro = coincide.group(1)
+                    info = coleccion.index_information().get(otro)
+                    retirar(otro, claves_norm(info["key"]) if info else objetivo)
+                else:
+                    raise
+        print(f"  Indice creado en {(time.perf_counter() - t0) * 1000:.0f} ms")
         p_con = plan(cursor(nombre))
         ms_con = mediana_ms(lambda: cursor(nombre))
         print("\n  CON indice")
@@ -141,8 +185,15 @@ def comparar_indice(descripcion, coleccion, filtro, orden, claves, nombre,
         print(f"    documentos devueltos:  {p_con['devueltos']}")
         print(f"    tiempo mediano:        {ms_con:.2f} ms")
     finally:
-        if not mantener:
-            coleccion.drop_index(nombre)
+        if mantener and creado:
+            if retirados:
+                print("  AVISO: se conserva el indice demo_*; los indices originales NO se "
+                      "restauraron. Al terminar, borre demo_* y ejecute database/Index/indexes.js.")
+        else:
+            if creado:
+                coleccion.drop_index(nombre)
+            for nombre_original, claves_originales in retirados:
+                coleccion.create_index(claves_originales, name=nombre_original)
 
     if ms_con > 0:
         print(f"\n  => {p_sin['examinados']} -> {p_con['examinados']} documentos examinados; "
@@ -190,6 +241,20 @@ def paso3(db, cliente, args):
     print(f"\n=> El pedido trae sus {len(encontrado['lineas_detalle'])} lineas dentro, "
           "con nombre y precio al momento de la compra.")
 
+    # Actualizar el estado sin reescribir el resto del documento (sobre una copia)
+    copia = db["demo_pedidos"]
+    copia.drop()
+    copia.insert_one(encontrado)
+    antes = copia.find_one({"_id": encontrado["_id"]})
+    nuevo = "Enviado" if antes["estado"] != "Enviado" else "Entregado"
+    copia.update_one({"_id": encontrado["_id"]}, {"$set": {"estado": nuevo}})
+    despues = copia.find_one({"_id": encontrado["_id"]})
+    resto_antes = {k: v for k, v in antes.items() if k != "estado"}
+    resto_despues = {k: v for k, v in despues.items() if k != "estado"}
+    print(f"\nActualizar el estado (en una copia): {antes['estado']} -> {despues['estado']}")
+    print(f"El resto del documento queda identico: {resto_antes == resto_despues}")
+    copia.drop()
+
 
 def paso4(db, cliente, args):
     titulo(4, "Indices: antes y despues")
@@ -209,7 +274,53 @@ def paso4(db, cliente, args):
 
 
 def paso5(db, cliente, args):
-    titulo(5, "Evolucion del esquema sin migracion")
+    titulo(5, "Agregaciones: reportes del negocio")
+    # Codigo del grupo: database/queries/agregaciones.py (se importa aqui, ya con el .env cargado)
+    from database.queries import agregaciones as agg
+    print("\nSe ejecutan las funciones de database/queries/agregaciones.py")
+
+    t0 = time.perf_counter()
+    r = agg.ticket_promedio()[0]
+    seg = time.perf_counter() - t0
+    print(f"\n1) ticket_promedio() ({seg:.2f} s): {r['ticket_promedio']:,.2f} "
+          f"sobre {r['cantidad_pedidos']} pedidos no cancelados")
+
+    t0 = time.perf_counter()
+    top = agg.productos_mas_vendidos()[:5]
+    seg = time.perf_counter() - t0
+    print(f"\n2) productos_mas_vendidos() ({seg:.2f} s), los 5 primeros:")
+    for p in top:
+        print(f"   {p['_id']}  {p['nombre_producto']:<18} {p['cantidad_vendida']} unidades")
+
+    t0 = time.perf_counter()
+    if args.agregacion_completa:
+        ventas = agg.ventas_por_categoria()
+        alcance = "todos los pedidos no cancelados"
+        origen = "ventas_por_categoria()"
+    else:
+        # Misma consulta que ventas_por_categoria(), limitada a una muestra para que no tarde ~40 s
+        ventas = list(db.pedidos.aggregate([
+            {"$match": {"estado": {"$ne": "Cancelado"}}},
+            {"$limit": 2000},
+            {"$unwind": "$lineas_detalle"},
+            {"$lookup": {"from": "productos", "localField": "lineas_detalle.producto_id",
+                         "foreignField": "_id", "as": "producto"}},
+            {"$unwind": "$producto"},
+            {"$group": {"_id": "$producto.categoria",
+                        "total_ventas": {"$sum": "$lineas_detalle.subtotal"}}},
+            {"$sort": {"total_ventas": -1}},
+        ]))
+        alcance = "muestra de 2 000 pedidos; con los 50 000 tarda unos 40 s"
+        origen = "ventas_por_categoria() sobre una muestra"
+    seg = time.perf_counter() - t0
+    print(f"\n3) {origen} ({seg:.2f} s, {alcance}):")
+    for v in ventas:
+        print(f"   {v['_id']:<12} {v['total_ventas']:>18,.2f}")
+    print("\n=> Reportes del negocio calculados dentro de MongoDB con el Aggregation Framework.")
+
+
+def paso6(db, cliente, args):
+    titulo(6, "Evolucion del esquema sin migracion")
     demo = db["demo_productos"]
     demo.drop()
     for categoria in ("Ropa", "Tecnología"):
@@ -232,8 +343,8 @@ def paso5(db, cliente, args):
     demo.drop()
 
 
-def paso6(db, cliente, args):
-    titulo(6, "El historial del pedido no cambia aunque cambie el producto")
+def paso7(db, cliente, args):
+    titulo(7, "El historial del pedido no cambia aunque cambie el producto")
     pedido = pedido_demo(db)
     linea = pedido["lineas_detalle"][0]
     producto = db.productos.find_one({"_id": linea["producto_id"]})
@@ -262,8 +373,8 @@ def paso6(db, cliente, args):
     demo_ped.drop()
 
 
-def paso7(db, cliente, args):
-    titulo(7, "Validacion de datos invalidos")
+def paso8(db, cliente, args):
+    titulo(8, "Validacion de datos invalidos")
     print("\nIntento de crear un producto con precio negativo (validacion del modelo en Python):")
     try:
         crear_estructura_producto("X", "Prueba", -100.0, "Ropa", "COM-001", 1, {})
@@ -284,7 +395,7 @@ def paso7(db, cliente, args):
           "  No configurada todavia (pendiente): hoy la validacion vive en el codigo Python.")
 
 
-PASOS = {1: paso1, 2: paso2, 3: paso3, 4: paso4, 5: paso5, 6: paso6, 7: paso7}
+PASOS = {1: paso1, 2: paso2, 3: paso3, 4: paso4, 5: paso5, 6: paso6, 7: paso7, 8: paso8}
 
 
 def main():
@@ -294,6 +405,8 @@ def main():
     ap.add_argument("--pasos", default=",".join(map(str, PASOS)),
                     help="pasos a ejecutar, separados por coma (default: todos)")
     ap.add_argument("--mantener-indices", action="store_true")
+    ap.add_argument("--agregacion-completa", action="store_true",
+                    help="en el paso 5, ventas por categoria con los 50 000 pedidos (~40 s)")
     args = ap.parse_args()
 
     load_dotenv(RAIZ / ".env")
