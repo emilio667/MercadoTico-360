@@ -28,6 +28,7 @@ python Performance/scripts/demo.py --auto
 ```
 
 Las pruebas de rendimiento y su reproducción están en `Performance/README.md`.
+
 ---
 
 ## Índice
