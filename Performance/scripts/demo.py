@@ -219,11 +219,13 @@ def paso5(db, cliente, args):
         print(f"  {d['_id']}  {d['categoria']:11} atributos: {d['atributos']}")
 
     primero = demo.find_one()
-    demo.update_one({"_id": primero["_id"]}, {"$set": {"atributos.genero": "Unisex"}})
+    # atributo que NO existe en ninguna categoria de los datos generados
+    nuevo_atributo = "certificacion_sostenible"
+    demo.update_one({"_id": primero["_id"]}, {"$set": {f"atributos.{nuevo_atributo}": True}})
     demo.insert_one(crear_estructura_producto(
         "PROD-DEMO", "Clase de yoga", 15000.0, "Servicios", primero["comercio_id"], 0,
         {"duracion_minutos": 60, "modalidad": "Virtual"}))
-    print("\nDespues de agregar el atributo 'genero' a UN producto y crear la categoria nueva 'Servicios':")
+    print(f"\nDespues de agregar el atributo nuevo '{nuevo_atributo}' a UN producto y crear la categoria nueva 'Servicios':")
     for d in demo.find():
         print(f"  {d['_id']}  {d['categoria']:11} atributos: {d['atributos']}")
     print("\n=> Sin ALTER TABLE ni migracion: solo el documento cambiado tiene el campo nuevo.")

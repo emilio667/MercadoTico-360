@@ -75,7 +75,7 @@ db.pedidos.find({cliente_id: "CLI-07282"}).sort({fecha: -1}).explain("executionS
 **Qué decir:** "Sin índice MongoDB revisó 50 000 pedidos para devolver 6. Con el índice, 6. Pasó de unos 100 ms a menos de 1 ms. Lo medimos 30 veces con mediana y percentil 95 en tres corridas."
 
 ### Paso 5 — Evolución del esquema (45 s)
-**Terminal:** agrega el atributo `genero` a un solo producto y crea la categoría `Servicios`, en una colección temporal.
+**Terminal:** agrega el atributo nuevo `certificacion_sostenible` a un solo producto y crea la categoría `Servicios`, en una colección temporal.
 **Qué decir:** "Agregamos un atributo y una categoría sin ALTER TABLE ni migración. Solo cambia el documento que lo necesita."
 
 ### Paso 6 — El historial no cambia (45 s)
