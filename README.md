@@ -105,7 +105,8 @@ Diseñar e implementar una solución de base de datos NoSQL orientada a document
 
 | Tecnología | Uso |
 |---|---|
-| MongoDB / MongoDB Atlas | Base de datos documental y alojamiento de la base utilizada por el proyecto |
+| MongoDB 7.0 (local) | Base de datos documental utilizada para reproducir el proyecto y para las pruebas de rendimiento |
+| MongoDB Atlas | Entorno compartido de desarrollo del grupo (opcional para reproducir) |
 | Python | Generación de datos, carga, consultas y pruebas |
 | PyMongo (`pymongo`) | Driver de Python para MongoDB |
 | `python-dotenv` | Lectura de variables de entorno desde `.env` |
@@ -232,6 +233,7 @@ La línea del pedido conserva `producto_id`, `nombre_producto`, `precio_unitario
 
 Almacena los datos como identificación, nombre, correo, teléfono, cédula y dirección (`provincia`, `canton`, `distrito` y `direccion_exacta`). 
 
+## 6. Decisiones de diseño 
 ### 6.1 Información embebida
 
 Se decidió embeber:
@@ -678,6 +680,16 @@ Los índices fueron seleccionados a partir de patrones reales de consulta implem
 - historial de pedidos de un cliente ordenado por fecha;
 - pedidos que contienen un producto.
 
+Los índices se crean con el archivo `database/Index/indexes.js`:
+
+```bash
+mongosh "mongodb://localhost:27017" --file database/Index/indexes.js
+```
+El benchmark borra y recrea estos mismos índices (y los elimina al terminar), por lo que, después de
+ejecutarlo, hay que volver a correr `indexes.js` si se necesitan.
+
+Con los datos finales, el efecto sobre una consulta frecuente fue, por ejemplo, de 114.94 ms a 0.55 ms
+para los pedidos de un cliente (Q6), con 50 000 documentos examinados antes y 7 después.
 Para revisar el plan de ejecución:
 
 ```javascript
@@ -698,6 +710,7 @@ El modelo documental permite incorporar atributos nuevos sin alterar todos los d
 
 Para demostrar la evolución del esquema durante la exposición, se puede incorporar un atributo nuevo a un producto mediante:
 
+
 ```javascript
 db.productos.updateOne(
   {
@@ -705,11 +718,13 @@ db.productos.updateOne(
   },
   {
     $set: {
-      "atributos.garantia_meses": 12
+      "atributos.certificacion_sostenible": true
     }
   }
 )
 ```
+Para ver este cambio sin modificar los datos reales, `python Performance/scripts/demo.py --pasos 6`
+lo ejecuta sobre una copia temporal.
 
 Los demás productos no necesitan incorporar ese campo. Esto permite demostrar que el catálogo puede evolucionar sin realizar una migración equivalente a modificar una tabla relacional completa.
 
@@ -733,11 +748,16 @@ Entre las comprobaciones se incluyen:
 - coherencia de subtotales;
 - estructura esperada de atributos y direcciones.
 
-El proyecto define validaciones en Python para construir y verificar la estructura esperada de los documentos.
 
-Como limitación, MongoDB continúa siendo una base de datos de esquema flexible y las referencias mediante identificadores no equivalen a restricciones de llave foránea de una base relacional.
+Estas validaciones se aplican en la capa de Python, antes de insertar los documentos. No equivalen a
+una validación obligatoria de MongoDB: en la ejecución documentada, la colección `productos` no tenía un
+validador `$jsonSchema` (la prueba V5 se omitió por esa razón), por lo que una inserción hecha fuera de
+las funciones del proyecto podría omitir estas restricciones.
 
-Las validaciones implementadas en Python permiten comprobar la estructura y los valores de los documentos antes de su inserción mediante las funciones del proyecto.
+Además, las relaciones entre colecciones se gestionan mediante identificadores y no cuentan con
+restricciones de llave foránea como las de una base relacional. La consistencia de esas referencias
+depende de las operaciones y validaciones de la aplicación.
+
 
 Sin embargo, estas comprobaciones no equivalen a una validación obligatoria aplicada directamente por MongoDB. En la ejecución documentada, la colección productos no contaba con un validador $jsonSchema, por lo que una inserción realizada fuera de las funciones de Python podría omitir algunas de estas restricciones.
 
@@ -883,7 +903,16 @@ python Performance/scripts/graficos.py --entrada Performance/resultados_final
 
 ## 15. Guía de demostración
 
-La demostración puede realizarse siguiendo este orden.
+La demostración también puede ejecutarse de forma guiada, paso a paso, con:
+```bash
+python Performance/scripts/demo.py
+```
+Muestra, sobre los datos reales y sin modificarlos: conexión y conteos, catálogo heterogéneo, un pedido
+anidado con cambio de estado, índices antes y después, agregaciones, evolución del esquema, historial
+intacto y validación. El guion está en `Performance/guion_demo.md`.
+
+Si se ejecutó `database/Index/indexes.js`, los índices ya existen; para mostrar el "antes" manualmente en
+`mongosh`, hay que eliminarlos primero (los comandos están al final de ese archivo).
 
 ### 15.1 Visualizar documentos reales y explicar el diseño
 
@@ -949,7 +978,7 @@ db.productos.updateOne(
   },
   {
     $set: {
-      "atributos.garantia_meses": 12
+      "atributos.certificacion_sostenible": true
     }
   }
 )
@@ -1012,6 +1041,8 @@ MercadoTico-360/
 │   │   ├── generar_comercios.py
 │   │   ├── generar_pedidos.py
 │   │   └── generar_productos.py
+│   ├── Index/
+│   │   └── indexes.js
 │   ├── queries/
 │   │   ├── agregaciones.py
 │   │   ├── consultas_pedidos.py
@@ -1019,24 +1050,29 @@ MercadoTico-360/
 │   │   └── crud.py
 │   ├── schemas/
 │   │   └── modelos_de_estructuras.py
-│   ├── seed/
-│   │   ├── comercios.json
-│   │   ├── clientes.json
-│   │   ├── productos.json
-│   │   ├── pedidos.json
-│   │   ├── seed_clientes.py
-│   │   ├── seed_comercios.py
-│   │   ├── seed_data.py
-│   │   ├── seed_pedidos.py
-│   │   └── seed_productos.py
-│   └── Index/
+│   └── seed/
+│       ├── comercios.json
+│       ├── clientes.json
+│       ├── productos.json
+│       ├── pedidos.json
+│       ├── seed_clientes.py
+│       ├── seed_comercios.py
+│       ├── seed_data.py
+│       ├── seed_pedidos.py
+│       └── seed_productos.py
 ├── Performance/
+│   ├── README.md
 │   ├── plan_de_pruebas.md
 │   ├── Riesgos
+│   ├── guion_demo.md
 │   ├── scripts/
 │   │   ├── benchmark.py
-│   │   └── graficos.py
-│   └── resultados/
+│   │   ├── graficos.py
+│   │   └── demo.py
+│   ├── resultados/             (pruebas funcionales)
+│   ├── resultados_corrida2/    (preliminar)
+│   ├── resultados_corrida3/    (preliminar)
+│   └── resultados_final/       (corrida final)
 ├── test/
 │   └── test_funcionales.py
 ├── docs/
