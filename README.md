@@ -246,6 +246,7 @@ Antes de ejecutar el proyecto se requiere:
 - Espacio suficiente para los archivos JSON y los datos de prueba.
 
 ---
+Para reproducir las pruebas de rendimiento, se recomienda utilizar un entorno aislado y mantener las versiones de las herramientas lo más cercanas posible a las empleadas en las mediciones originales. Las características específicas del entorno evaluado se encuentran documentadas en `Performance/resultados_final/entorno.json`
 
 ## 8. Instalación y configuración
 
